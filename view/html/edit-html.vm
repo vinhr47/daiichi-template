@@ -26,12 +26,12 @@
 	        </div>
 	   </div>
 	</div>	
-	<form class="form-horizontal u-for-page-top j-form-validate" id="form-edit" th:action="@{/}" th:object="${DOLLAR}{${uncapitalizedEntityName}}" method="post" role="form">
+	<form class="form-horizontal u-for-page-top j-form-validate" id="form-edit" th:action="@{/}" th:object="${DOLLAR}{${uncapitalizedEntityName}Dto}" method="post" role="form">
 		<th:block th:include="views/commons/message-alert.html :: content(${DOLLAR}{messageList})"/>
 		<div class="bg-content clearfix">
 			<div class="header-box">
-				<h2 class="title-box" th:text="#{${nameLC}.edit.title}" th:if="${DOLLAR}{${uncapitalizedEntityName}.id != null}">Update</h2>
-				<h2 class="title-box" th:text="#{${nameLC}.create.title}" th:if="${DOLLAR}{${uncapitalizedEntityName}.id == null}">Create</h2>
+				<h2 class="title-box" th:text="#{${nameLC}.edit.title}" th:if="${DOLLAR}{${uncapitalizedEntityName}Dto.id != null}">Update</h2>
+				<h2 class="title-box" th:text="#{${nameLC}.create.title}" th:if="${DOLLAR}{${uncapitalizedEntityName}Dto.id == null}">Create</h2>
 			</div>			                           
             <input type="hidden" th:field="*{id}" />
             <div class="col-sm-12 p-0">
@@ -85,7 +85,7 @@
 			</div>
 		</div>
 	</form>	
-	<input type="hidden" id="url" name="url" th:value="${DOLLAR}{${uncapitalizedEntityName}.url}"/>
+	<input type="hidden" id="url" name="url" th:value="${DOLLAR}{${uncapitalizedEntityName}Dto.url}"/>
 	<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-edit.js}"></script>
 	</body>
 </html>
