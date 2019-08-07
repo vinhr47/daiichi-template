@@ -39,7 +39,6 @@ import vn.com.unit.jcanary.constant.UrlConst;
 import vn.com.unit.jcanary.constant.ViewConstant;
 import vn.com.unit.jcanary.utils.SearchSessionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
-import vn.com.unit.jcanary.controller.CommonImportExcelInterface;
 import ${ROOT_PKG}.validator.${entity.name}Validator;
 import ${ROOT_PKG}.service.${entity.name}ImportService;
 import ${ROOT_PKG}.entity.${entity.name}Import;

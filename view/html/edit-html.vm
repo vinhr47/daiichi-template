@@ -26,14 +26,9 @@
 	        </div>
 	   </div>
 	</div>	
-	<form class="form-horizontal u-for-page-top j-form-validate" id="form-edit" th:action="@{/}" th:object="${DOLLAR}{${uncapitalizedEntityName}Dto}" method="post" role="form">
-		<th:block th:include="views/commons/message-alert.html :: content(${DOLLAR}{messageList})"/>
+	
 		<div class="bg-content clearfix">
-			<div class="header-box">
-				<h2 class="title-box" th:text="#{${nameLC}.edit.title}" th:if="${DOLLAR}{${uncapitalizedEntityName}Dto.id != null}">Update</h2>
-				<h2 class="title-box" th:text="#{${nameLC}.create.title}" th:if="${DOLLAR}{${uncapitalizedEntityName}Dto.id == null}">Create</h2>
-			</div>			                           
-            <input type="hidden" th:field="*{id}" />
+			
 			
 				<!-- TAB DEFINE START -->
 			<div>
@@ -55,7 +50,7 @@
 
 			</div>
 		</div>
-	</form>	
+
 	<input type="hidden" id="url" name="url" th:value="${DOLLAR}{${uncapitalizedEntityName}Dto.url}"/>
 	<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-edit.js}"></script>
 	</body>
