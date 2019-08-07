@@ -32,7 +32,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<th:block th:if="${pageWrapper.data!=null}" th:each="item, i : ${DOLLAR}{pageWrapper.data}" th:with="startIndex=${DOLLAR}{pageWrapper.startIndexCurrent}">
+						<th:block th:if="${DOLLAR}{pageWrapper.data!=null}" th:each="item, i : ${DOLLAR}{pageWrapper.data}" th:with="startIndex=${DOLLAR}{pageWrapper.startIndexCurrent}">
 							<tr th:attr="data-temp-id=${DOLLAR}{item.id}">
 								<td class="text-center" th:text="${DOLLAR}{item.rowNum}"></td>
                                 <td class="text-center">
@@ -62,7 +62,7 @@
 					</tbody>
 				</table>
 			</div>
-			<th:block th:if="${pageWrapper.data!=null}" th:include="views/commons/pagination.html :: content" />
+			<th:block th:if="${DOLLAR}{pageWrapper.data!=null}" th:include="views/commons/pagination.html :: content" />
 			<div class="col-sm-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
 				<a id="import" onclick="importToMasterData()" class="btn-common"><span th:text="#{common.import.button}">Import</span></a>
 			</div>
