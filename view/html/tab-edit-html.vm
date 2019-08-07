@@ -64,7 +64,7 @@
 					<span th:text="#{save.button}">Luu</span>
 				</a>			
 			</div>
-		</div>
+		
 		</form>
 </body>
 </html>
