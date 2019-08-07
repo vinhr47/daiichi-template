@@ -33,7 +33,7 @@
 				<!-- TAB DEFINE START -->
 			<div>
 				<ul class="nav nav-tabs tab-customize">
-					<li id="main" class="active"><a data-toggle="tab" href="#main0"><span th:text="#{common.title.edit}"></span></a></li>
+					<li id="main" class="active"><a data-toggle="tab" href="#main0"><span th:text="#{${entityLC}.title}"></span></a></li>
 					<li id="import-excel"><a data-toggle="tab" href="#import-excel0"><span>Import excel</span></a></li>
 				</ul>
 			</div>
