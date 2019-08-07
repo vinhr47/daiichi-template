@@ -45,8 +45,8 @@ import ${ROOT_PKG}.service.${entity.name}ImportService;
 import ${ROOT_PKG}.entity.${entity.name}Import;
 import ${ROOT_PKG}.constant.DmsUrlConst;
 
-//--- import Entities
-import ${entityPackage}.${entity.name};
+//--- import entity Dto
+import ${dtoPackage}.${entity.name}Dto;
 //--- import SearchDto
 import ${dtoPackage}.${searchDtoName};
 //--- import $searchDtoName
@@ -121,7 +121,7 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
 		
 		/* END */
         ModelAndView mav = new ModelAndView(VIEW_LIST);
-        PageWrapper<${entity.name}> pageWrapper = ${uncapitalizedServiceName}.doSearch(page, searchDto, pageSize);
+        PageWrapper<${entity.name}Dto> pageWrapper = ${uncapitalizedServiceName}.doSearch(page, searchDto, pageSize);
 		if (pageWrapper.getCountAll() == 0) {
 			// Init message list
 			MessageList messageList = new MessageList(Message.INFO);
@@ -152,7 +152,7 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
         if(securityForPage(SCREEN_FUNCTION_CODE)){
 			return new ModelAndView(ViewConstant.ACCESS_DENIED_MODELANDVIEW);
 		}
-        PageWrapper<${entity.name}> pageWrapper = ${uncapitalizedServiceName}.doSearch(page, searchDto, pageSize);
+        PageWrapper<${entity.name}Dto> pageWrapper = ${uncapitalizedServiceName}.doSearch(page, searchDto, pageSize);
         if( pageWrapper.getCountAll() == 0 ) {
             // Init message list
             MessageList messageList = new MessageList(Message.INFO);
@@ -185,7 +185,7 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
         if(securityForPage(SCREEN_FUNCTION_CODE)){
 			return new ModelAndView(ViewConstant.ACCESS_DENIED_MODELANDVIEW);
 		}
-        ${entity.name} ${uncapitalizedEntityName} = ${uncapitalizedServiceName}.get${entity.name}ById(id);
+        ${entity.name} ${uncapitalizedEntityName}Dto = ${uncapitalizedServiceName}.get${entity.name}ById(id);
         
         // set url ajax
         String url = "${urlEntityName}".concat(UrlConst.EDIT);
@@ -209,7 +209,7 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
      * @author telosys
      */
     @PostMapping(UrlConst.EDIT)
-    public ModelAndView postEdit(@Valid @ModelAttribute(value = "${uncapitalizedEntityName}") ${entity.name} ${uncapitalizedEntityName}, BindingResult bindingResult,
+    public ModelAndView postEdit(@Valid @ModelAttribute(value = "${uncapitalizedEntityName}") ${entity.name}Dto ${uncapitalizedEntityName}Dto, BindingResult bindingResult,
             Locale locale, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		// Security for this page.
@@ -298,7 +298,7 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
         if(securityForPage(SCREEN_FUNCTION_CODE)){
 			return new ModelAndView(ViewConstant.ACCESS_DENIED_MODELANDVIEW);
 		}
-        ${entity.name} ${uncapitalizedEntityName} = ${uncapitalizedServiceName}.get${entity.name}ById(id);
+        ${entity.name} ${uncapitalizedEntityName}Dto = ${uncapitalizedServiceName}.get${entity.name}ById(id);
         
         // set url ajax
         String url = "${urlEntityName}".concat(UrlConst.DETAIL);

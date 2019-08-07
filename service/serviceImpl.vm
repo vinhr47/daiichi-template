@@ -28,6 +28,7 @@ import vn.com.unit.jcanary.common.PageWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.modelmapper.ModelMapper;
 import vn.com.unit.jcanary.config.SystemConfig;
 import vn.com.unit.jcanary.utils.ExportExcelUtil;
 import vn.com.unit.jcanary.utils.ImportExcelUtil;
@@ -47,6 +48,8 @@ import ${dtoPackage}.${dtoSearchName};
 import ${entityRepository}.${repositoryName};
 //-- Enum Search
 import ${enumPackage}.${enumExportName};
+//-- Dto
+import ${dtoPackage}.${entity.name}Dto;
 /**
  * Spring MVC ServiceImpl for '${entity.name}' management.
  */
@@ -77,15 +80,15 @@ public class ${serviceImplName} implements ${serviceName}{
 	 */
 
 	@Override
-    public PageWrapper<${entity.name}> doSearch(int page, ${dtoSearchName} searchDto, int pageSize) {
-		PageWrapper<${entity.name}> pageWrapper = new PageWrapper<>();
+    public PageWrapper<${entity.name}Dto> doSearch(int page, ${dtoSearchName} searchDto, int pageSize) {
+		PageWrapper<${entity.name}Dto> pageWrapper = new PageWrapper<>();
         int sizeOfPage = systemConfig.settingPageSizeList(pageSize,pageWrapper ,page);
   
         if (null == searchDto)
             searchDto = new ${dtoSearchName}();
 
         int count = ${uncapitalizedRepoName}.count${entity.name}ByCondition(searchDto);
-        List<${entity.name}> result = new ArrayList<${entity.name}>();
+        List<${entity.name}Dto> result = new ArrayList<${entity.name}Dto>();
         if (count > 0) {
             int currentPage = pageWrapper.getCurrentPage();
             int startIndex = (currentPage - 1) * sizeOfPage;
@@ -97,31 +100,36 @@ public class ${serviceImplName} implements ${serviceName}{
 
 
 	@Override
-	public ${entity.name} get${entity.name}ById(Long id){
-		${entity.name} ${uncapitalizedEntityName} = new ${entity.name}();
+	public ${entity.name}Dto get${entity.name}ById(Long id){
+		ModelMapper mapper = new ModelMapper();
+		${entity.name}Dto ${uncapitalizedEntityName}Dto = new ${entity.name}Dto();
         if( null != id ) {
-        	${uncapitalizedEntityName} = ${uncapitalizedRepoName}.findOne(id);
+        	${entity.name} ${uncapitalizedEntityName} = ${uncapitalizedRepoName}.findOne(id);
+			${uncapitalizedEntityName}Dto = mapper.map(${uncapitalizedEntityName}, ${entity.name}Dto.class);
         }
-        return ${uncapitalizedEntityName};
+        return ${uncapitalizedEntityName}Dto;
 	}
 
 	@Override
 	@Transactional
-	public void saveOrUpdate(${entity.name} ${uncapitalizedEntityName}){	
+	public void saveOrUpdate(${entity.name}Dto ${uncapitalizedEntityName}Dto){	
 		String userNameLogin = UserProfileUtils.getUserNameLogin();
-        Long id = ${uncapitalizedEntityName}.getId();
+        Long id = ${uncapitalizedEntityName}Dto.getId();
         if( null != id ) {
 			//update data
         	${entity.name} entity = ${uncapitalizedRepoName}.findOne(id);
             if(null == entity) {
                 throw new BusinessException( "Not found ${entity.name} by id= " + id);
             }
-			updateData(entity, ${uncapitalizedEntityName});
+			updateData(${uncapitalizedEntityName}Dto, entity);
             entity.setUpdatedBy(userNameLogin);
             entity.setUpdatedDate(new Date());
 			${uncapitalizedRepoName}.save(entity);
         }else{
 			//create data
+			ModelMapper mapper = new ModelMapper();
+			${entity.name} ${uncapitalizedEntityName} = new ${entity.name}();
+			${uncapitalizedEntityName} = mapper.map(${uncapitalizedEntityName}Dto, ${entity.name}.class);
         	${uncapitalizedEntityName}.setCreatedBy(userNameLogin);
         	${uncapitalizedEntityName}.setCreatedDate(new Date());
 			${uncapitalizedRepoName}.save(${uncapitalizedEntityName});
@@ -137,7 +145,7 @@ public class ${serviceImplName} implements ${serviceName}{
 			${entity.name} ${uncapitalizedEntityName} = ${uncapitalizedRepoName}.findOne(id);
 			${uncapitalizedEntityName}.setDeletedDate(systemDate);          
 			${uncapitalizedEntityName}.setDeletedBy(usernameLogin);
-			${uncapitalizedEntityName}.setDeleteFlag(1);
+			${uncapitalizedEntityName}.setValidFlag(6);
 			${uncapitalizedRepoName}.save(${uncapitalizedEntityName});
 		}
 	}
@@ -171,12 +179,12 @@ public class ${serviceImplName} implements ${serviceName}{
     }
 
 	//only update field want to update 
-	public void updateData(${entity.name} source, ${entity.name} target){
+	public void updateData(${entity.name}Dto source, ${entity.name} target){
 #foreach( $field in $dataFields )	
 #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
 && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
-&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'companyCode')
-		source.${field.setter}(target.${field.getter}());
+&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode')
+		target.${field.setter}(source.${field.getter}());
 #end
 #end		
 	}

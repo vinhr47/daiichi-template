@@ -11,6 +11,9 @@ package ${target.javaPackageFromFolder($SRC)};
 import ${dtoPackage}.${dtoSearchName};
 //-- Entity
 import ${entityPackage}.${entity.name};
+//-- Dto
+import ${dtoPackage}.${entity.name}Dto;
+
 import java.util.List;
 import org.springframework.data.mirage.repository.MirageRepository;
 import org.springframework.data.repository.query.Param;
@@ -26,7 +29,7 @@ public interface ${repositoryName} extends MirageRepository<${entity.name}, Long
      * @return
      * @author telosys
      */
-    public List<${entity.name}> findAll${entity.name}sByCondition(
+    public List<${entity.name}Dto> findAll${entity.name}sByCondition(
             @Param("offset") int offset,
             @Param("sizeOfPage") int sizeOfPage, 
             @Param("searchDto") ${dtoSearchName} searchDto);
