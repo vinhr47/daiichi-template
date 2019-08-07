@@ -6,6 +6,7 @@
 #set( $countField = 0)
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>	
 <div class="bg-content clearfix">
 	<form class="form-horizontal j-formSearch" id="fmUpload" method="POST" role="form" enctype="multipart/form-data">
 		<div class="row">
@@ -171,4 +172,5 @@ $('#fmUpload').fileupload({
 });
 
 </script>
+</body>
 </html>
