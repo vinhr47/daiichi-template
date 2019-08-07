@@ -19,7 +19,7 @@ import jp.sf.amateras.mirage.annotation.PrimaryKey;
 import jp.sf.amateras.mirage.annotation.PrimaryKey.GenerationType;
 import jp.sf.amateras.mirage.annotation.Table;
 import jp.sf.amateras.mirage.annotation.Transient;
-import vn.com.unit.jcanary.entity.AbstractEntity;
+
 
 /**
  * Domain class for entity "${entity.name}"
@@ -28,7 +28,7 @@ import vn.com.unit.jcanary.entity.AbstractEntity;
  *
  */
 @Table(name = "${entity.databaseTable}")
-public class ${entity.name} extends AbstractEntity {
+public class ${entity.name} extends AbstractDmsEntity {
 
 
     //----------------------------------------------------------------------
