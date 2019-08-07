@@ -9,10 +9,13 @@ ${entityLC}.title=$fn.firstCharToUpperCase(${entity.name})
 ${entityLC}.edit.title = Edit ${entityUC}
 ${entityLC}.create.title = Update ${entityUC}
 ${entityLC}.detail.title = Update ${entityUC}
+${entityLC}.import.excel = Import excel
+${entityLC}.file.import = File import
+${entityLC}.import.result = Import result
 #foreach( $field in ${entity.attributes} )
 #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
 && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
-&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'companyCode')
+&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode')
 ${entityLC}.${field.formattedName(0)}=${field.label}
 #end
 #end
