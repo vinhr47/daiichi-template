@@ -74,7 +74,7 @@ public class ${entity.name}Dto extends AbstractDmsDto {
 #foreach( $attribute in $dataFields )
 #if($attribute.formattedName(0) != 'deletedBy' && $attribute.formattedName(0) != 'deletedDate' && $attribute.formattedName(0) != 'createdBy'
 && $attribute.formattedName(0) != 'createdDate' && $attribute.formattedName(0) != 'updatedDate' && $attribute.formattedName(0) != 'updatedBy'
-&& $attribute.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' &&  $attribute.formattedName(0) != 'companyCode')
+&& $attribute.formattedName(0) != 'deletedFlag' && $attribute.formattedName(0) != 'validFlag' &&  $attribute.formattedName(0) != 'companyCode')
 
     public void ${attribute.setter}( $attribute.type $attribute.name ) {
         this.$attribute.name = $attribute.name ;
