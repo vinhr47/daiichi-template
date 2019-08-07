@@ -9,7 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
- * Spring MVC ServiceImpl for '${entity.name}' management.
+ * Spring MVC ServiceImpl for '${entity.name}Dto' management.
  */
 
 @Component

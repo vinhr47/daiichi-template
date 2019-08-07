@@ -185,16 +185,16 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
         if(securityForPage(SCREEN_FUNCTION_CODE)){
 			return new ModelAndView(ViewConstant.ACCESS_DENIED_MODELANDVIEW);
 		}
-        ${entity.name} ${uncapitalizedEntityName}Dto = ${uncapitalizedServiceName}.get${entity.name}ById(id);
+        ${entity.name}Dto ${uncapitalizedEntityName}Dto = ${uncapitalizedServiceName}.get${entity.name}ById(id);
         
         // set url ajax
         String url = "${urlEntityName}".concat(UrlConst.EDIT);
         if (null != id) {
             url = url.concat("?id=").concat(id.toString());
         }
-        ${uncapitalizedEntityName}.setUrl(url);
+        ${uncapitalizedEntityName}Dto.setUrl(url);
         
-        mav.addObject("${uncapitalizedEntityName}", ${uncapitalizedEntityName});
+        mav.addObject("${uncapitalizedEntityName}Dto", ${uncapitalizedEntityName}Dto);
         return mav;
     }
 
@@ -209,19 +209,19 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
      * @author telosys
      */
     @PostMapping(UrlConst.EDIT)
-    public ModelAndView postEdit(@Valid @ModelAttribute(value = "${uncapitalizedEntityName}") ${entity.name}Dto ${uncapitalizedEntityName}Dto, BindingResult bindingResult,
+    public ModelAndView postEdit(@Valid @ModelAttribute(value = "${uncapitalizedEntityName}Dto") ${entity.name}Dto ${uncapitalizedEntityName}Dto, BindingResult bindingResult,
             Locale locale, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
 		// Security for this page.
         if(securityForPage(SCREEN_FUNCTION_CODE)){
 			return new ModelAndView(ViewConstant.ACCESS_DENIED_MODELANDVIEW);
 		}
-    	Long id = ${uncapitalizedEntityName}.getId();
+    	Long id = ${uncapitalizedEntityName}Dto.getId();
         ModelAndView mav = new ModelAndView(VIEW_EDIT); 
         //Init message list
         MessageList messageList = new MessageList(Message.SUCCESS);
 		//do validate data
-        ${uncapitalizedEntityName}Validator.validate(${uncapitalizedEntityName}, bindingResult);
+        ${uncapitalizedEntityName}Validator.validate(${uncapitalizedEntityName}Dto, bindingResult);
         
         //Validation
         if (bindingResult.hasErrors()) {
@@ -230,11 +230,11 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
             String msgError = msg.getMessage(ConstantCore.MSG_ERROR_UPDATE, null, locale);
             messageList.add(msgError);
             mav.addObject(ConstantCore.MSG_LIST, messageList);
-            mav.addObject("${uncapitalizedEntityName}", ${uncapitalizedEntityName});
+            mav.addObject("${uncapitalizedEntityName}Dto", ${uncapitalizedEntityName}Dto);
             return mav;
         }      
         // Update Item
-        ${uncapitalizedServiceName}.saveOrUpdate(${uncapitalizedEntityName});
+        ${uncapitalizedServiceName}.saveOrUpdate(${uncapitalizedEntityName}Dto);
         // Message Alert
         String msgInfo = "";        
         if (null != id){
@@ -246,7 +246,7 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
         redirectAttributes.addFlashAttribute(ConstantCore.MSG_LIST, messageList);
         // View Name
         String viewName = UrlConst.REDIRECT.concat(URL_ENTITY).concat(UrlConst.EDIT); 
-        id = ${uncapitalizedEntityName}.getId();
+        id = ${uncapitalizedEntityName}Dto.getId();
         redirectAttributes.addAttribute("id", id);
         mav.setViewName(viewName);        
         
@@ -298,15 +298,15 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
         if(securityForPage(SCREEN_FUNCTION_CODE)){
 			return new ModelAndView(ViewConstant.ACCESS_DENIED_MODELANDVIEW);
 		}
-        ${entity.name} ${uncapitalizedEntityName}Dto = ${uncapitalizedServiceName}.get${entity.name}ById(id);
+        ${entity.name}Dto ${uncapitalizedEntityName}Dto = ${uncapitalizedServiceName}.get${entity.name}ById(id);
         
         // set url ajax
         String url = "${urlEntityName}".concat(UrlConst.DETAIL);
         if (null != id) {
             url = url.concat("?id=").concat(id.toString());
         }
-        ${uncapitalizedEntityName}.setUrl(url);
-        mav.addObject("${uncapitalizedEntityName}", ${uncapitalizedEntityName});
+        ${uncapitalizedEntityName}Dto.setUrl(url);
+        mav.addObject("${uncapitalizedEntityName}Dto", ${uncapitalizedEntityName}Dto);
         return mav;
     }  
 

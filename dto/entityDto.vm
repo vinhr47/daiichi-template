@@ -7,6 +7,8 @@ package ${target.javaPackageFromFolder(${SRC})};
 import $import;
 #end
 
+import jp.sf.amateras.mirage.annotation.Transient;
+
 ##--------------------------------------------------------------------------------------------------------
 ## Data fields = fields not in Primary Key and not in selected Links    
 #set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
