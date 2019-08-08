@@ -39,4 +39,69 @@ ${DOLLAR}(function(){
 	function goTopPage(){
 		${DOLLAR}("html, body").animate({ scrollTop: 0 }, "1");
 	}
+	$('#fmUpload').fileupload({
+	    url: '',
+	    type: 'POST',
+	    dataType: 'json',
+	    formAcceptCharset: 'utf-8',
+	    limitMultiFileUploadSize: 1000000,
+	    limitMultiFileUploadSizeOverhead: 1000000,
+	    multipart: true,
+	    maxChunkSize :10000000,
+	    sequentialUploads: false, 
+	    add: function (e, data) {
+	    	$('#btnImport').click(function(e) {
+	    		e.preventDefault(e);
+	    		if(data.files != null){
+	    		   //Disable submit button
+	    		   $('#btnImport').addClass('hidden');
+
+	    		   	if(data != null){
+	    		   		data.url= BASE_URL + $('#linkUploadExcelCommon').val();
+	        			data.submit();
+	    		   	}	
+	    			
+	    			data.files = null;
+	    		
+				}
+	        });
+	    },
+		done: function (e, data) {
+			
+			var response = data.result;
+			$("#message-inprocess").html('<span class="text-center" style="color:green;">'+ 'Process completed'+'<span/>');
+	    	$('#btnImport').removeClass('hidden');
+	    	$('.message-file-upload').remove();
+	    
+	    	if(response.result=='success'){
+			      var linkUploadList = $("#linkUploadExcelListCommon").val();     		 
+	     		  if(linkUploadList.indexOf("?") !== -1){
+	     			 window.location.href = BASE_URL + linkUploadList + "&importId=" + response.importId;  
+	     		  }else{
+	     			 window.location.href = BASE_URL + linkUploadList + "?importId=" + response.importId;
+	     		  }
+	    	}else{
+	    	     $('#messageE').removeClass('bg-msg-err');
+	    	     var messageE = "'#messageE'";
+	    	     var bg = "'bg-msg-err'";
+	    		 $('#message-upload-id').html('<div class="alert alert-danger alert-dismissible">'+
+						 ' <button aria-hidden="true" data-dismiss="alert" id="btnCloseError" onclick="$('+messageE+').addClass('+bg+');" class="close" type="button">�</button><div >'
+						+ response.result +':'+response.exception+'</div></div>');
+	    	}
+	    	data.files = null;
+	      
+		},
+		fail: function(e,data){
+			$('.message-file-upload').remove();
+	    	$("#message-inprocess").html('<span class="text-center" style="color:red;">'+ 'File upload fail'+'<span/>');
+	    	$('#message-upload-id').html('<div class="alert alert-danger alert-dismissible">'+
+					 ' <button aria-hidden="true" data-dismiss="alert" class="close" type="button">�</button><div >'
+					+ '('+data.result+
+		      		' - '+data.textStatus+')'+'</div></div>');
+	     
+	    	 $('#btnImport').removeClass('hidden');
+	    	data.files=null;
+	  
+		}
+	});
 });
