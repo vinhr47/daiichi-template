@@ -57,7 +57,7 @@
 				</table>							
 			</div>			
 		</div>
-		<th:block th:include="views/commons/pagination.html :: content"/>
+		<th:block th:include="views/commons/pagination-v2.html :: content(${DOLLAR}{pageWrapper})"/>
 		<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-table.js}"></script>
 	</body>
 </html>
