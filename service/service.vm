@@ -23,7 +23,7 @@ public interface ${serviceName} {
 
 	public PageWrapper<${entity.name}Dto> doSearch(int page, ${dtoSearchName} searchDto, int pageSize);
 	
-	public void saveOrUpdate(${entity.name}Dto ${uncapitalizedEntityName}Dto);
+	public ${entity.name}Dto saveOrUpdate(${entity.name}Dto ${uncapitalizedEntityName}Dto);
 
 	public ${entity.name}Dto get${entity.name}ById(Long id);
 

@@ -233,7 +233,7 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
             return mav;
         }      
         // Update Item
-        ${uncapitalizedServiceName}.saveOrUpdate(${uncapitalizedEntityName}Dto);
+        ${uncapitalizedEntityName}Dto = ${uncapitalizedServiceName}.saveOrUpdate(${uncapitalizedEntityName}Dto);
         // Message Alert
         String msgInfo = "";        
         if (null != id){

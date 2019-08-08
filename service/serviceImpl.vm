@@ -112,7 +112,7 @@ public class ${serviceImplName} implements ${serviceName}{
 
 	@Override
 	@Transactional
-	public void saveOrUpdate(${entity.name}Dto ${uncapitalizedEntityName}Dto){	
+	public ${entity.name}Dto saveOrUpdate(${entity.name}Dto ${uncapitalizedEntityName}Dto){	
 		String userNameLogin = UserProfileUtils.getUserNameLogin();
         Long id = ${uncapitalizedEntityName}Dto.getId();
 		ModelMapper mapper = new ModelMapper();
@@ -134,8 +134,10 @@ public class ${serviceImplName} implements ${serviceName}{
         	${uncapitalizedEntityName}.setCreatedBy(userNameLogin);
         	${uncapitalizedEntityName}.setCreatedDate(new Date());
 			${uncapitalizedRepoName}.save(${uncapitalizedEntityName});
-			dmsAssetDto = mapper.map(${uncapitalizedEntityName}, ${entity.name}Dto.class);
+			${uncapitalizedEntityName}Dto = mapper.map(${uncapitalizedEntityName}, ${entity.name}Dto.class);
         }
+		
+		return ${uncapitalizedEntityName}Dto;
 		
 	}
 
