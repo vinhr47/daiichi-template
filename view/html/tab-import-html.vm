@@ -4,6 +4,7 @@
 #set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
 #set( $halfSizeFields = ($fn.size($dataFields) - 8 )/2)
 #set( $countField = 0)
+#set( $dmn = $fn.toLowerCase($entity.name))
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>	
@@ -15,12 +16,15 @@
 				<div class="form-group">
 					<div class="col-xs-12 col-sm-12">
 						<div class="col-sm-2">
-							<label th:text="#{${entityLC}.import.excel}"></label>
-						</div>
-						<div class="col-sm-8">
-							<input id="template-upload" type="file" name="files"
-												accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="upload" />
-						</div>
+								<label th:text="#{dmsasset.import.excel}"></label>
+							</div>
+							<div class="col-sm-2">
+								<a class="fileupload cus-upload"> <span>Add files...</span> <input id="template-upload" type="file" name="files"
+									accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+									class="upload" />
+								</a>
+							</div>
+							<div class="col-sm-2" id="fileList"></div>
 					</div>
 				</div>
 			</div>
@@ -33,7 +37,7 @@
 							<label th:text="#{${entityLC}.file.import}">Template Import</label>
 						</div>
 						<div class="col-sm-8">
-							<a th:href="@{${'/'+ $fn.toLowerCase($entity.name) + T(vn.com.unit.jcanary.constant.UrlConst).URL_DOWNLOAD_TEMPLATE_EXCEL}}"
+							<a th:href="@{${DOLLAR}{'/${dmn}' + T(vn.com.unit.jcanary.constant.UrlConst).URL_DOWNLOAD_TEMPLATE_EXCEL}}"
 								id="download-template-id"> Download Template</a>
 						</div>
 					</div>

@@ -66,6 +66,19 @@ ${DOLLAR}(function(){
 				}
 	        });
 	    },
+		drop: function (e, data) {
+	    	$('#sheetExcelSelectId').html('<select class="form-control" id="sheetExcelId" name="sheetNames"></select>');
+	        $.each(data.files, function (index, file) {
+	        	$("#fileList").html('<span class="message-file-upload" style="color: blue;word-break: break-all;">'+file.name+'<br/></span>');
+	        });
+	       
+	    },
+	    change: function (e, data) {
+	    	$('#sheetExcelSelectId').html('<select class="form-control" id="sheetExcelId" name="sheetNames"></select>');
+	        $.each(data.files, function (index, file) {
+	        	$("#fileList").html('<span class="message-file-upload" style="color: blue;word-break: break-all;">'+file.name+'<br/></span>');
+	        });	  
+	    },
 		done: function (e, data) {
 			
 			var response = data.result;

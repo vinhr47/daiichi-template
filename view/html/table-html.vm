@@ -23,7 +23,7 @@
 			   #foreach( $field in $dataFields )
 			   #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
 && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
-&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'companyCode')
+&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode')
 			   <th class="u_t_code" th:text="#{${entityLC}.${field.formattedName(0)}}">$fn.toUpperCase($field.formattedName(0))</th>
 			   #end
 			   #end	
@@ -43,7 +43,7 @@
 		#foreach( $field in $dataFields )
 		#if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
 && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
-&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'companyCode')
+&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode')
 		#if($field.jdbcTypeName == 'TIMESTAMP')
 		<td class="text-center" th:text="${DOLLAR}{item.${field.formattedName(0)}} ? ${DOLLAR}{#dates.format(item.${field.formattedName(0)}, @menuConfig.getFormDate())}"></td>
 		#else	
