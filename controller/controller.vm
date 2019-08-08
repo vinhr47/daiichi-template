@@ -192,7 +192,7 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
             url = url.concat("?id=").concat(id.toString());
         }
         ${uncapitalizedEntityName}Dto.setUrl(url);
-          mav.addObject("pageWrapper", new PageWrapper<${uncapitalizedEntityName}Import>());
+          mav.addObject("pageWrapper", new PageWrapper<${entity.name}Import>());
         mav.addObject("${uncapitalizedEntityName}Dto", ${uncapitalizedEntityName}Dto);
         return mav;
     }
