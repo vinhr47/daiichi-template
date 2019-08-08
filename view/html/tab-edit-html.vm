@@ -2,7 +2,7 @@
 #set( $entityLC = $fn.toLowerCase($entity.name))
 #set( $nameLC = ${entity.name.toLowerCase()} )
 #set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
-#set( $halfSizeFields = ($fn.size($dataFields) - 9 )/2)
+#set( $halfSizeFields = ($fn.size($dataFields) - 11 )/2)
 #set( $countField = 0)
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
