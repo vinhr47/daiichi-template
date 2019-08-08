@@ -4,6 +4,7 @@
 #set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
 #set( $halfSizeFields = ($fn.size($dataFields) - 11 )/2)
 #set( $countField = 0)
+#set( $countCol = 1)
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
@@ -15,7 +16,7 @@
 			<h2 class="title-box" th:text="#{${nameLC}.create.title}" th:if="${DOLLAR}{${uncapitalizedEntityName}Dto.id == null}">Create</h2>
 		</div>			                           
             <input type="hidden" th:field="*{id}" />
-       <div class="col-sm-12 p-0">
+      
 		
 			#foreach($field in $dataFields)
 				#if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
@@ -23,39 +24,27 @@
 				&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode'
 				&& $field.formattedName(0) != 'notes' && $field.formattedName(0) != 'description' && $field.formattedName(0) != 'reason')
 					
-					#if($countField <= $halfSizeFields)
-				<div class="form-group" th:classappend="${DOLLAR}{#fields.hasErrors('$field.formattedName(0)')} ? has-error : ''">
-					<label class="col-sm-4 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}̃</label>
-					<div class="col-sm-8" >
-						<input type="text" th:field="*{$field.formattedName(0)}" class="form-control" />
-						<span class="help-block" th:if="${DOLLAR}{#fields.hasErrors('$field.formattedName(0)')}" th:errors="*{$field.formattedName(0)}"></span>                                                   
-					</div>
-				</div>
+					#if($countCol ==1)
+						<div class="col-sm-12 p-0 form-group">
 					#end
-					#set($countField = $countField + 1)
+							<div th:classappend="${DOLLAR}{#fields.hasErrors('$field.formattedName(0)')} ? has-error : ''">
+								<label class="col-sm-2 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}̃</label>
+								<div class="col-sm-4" >
+									<input type="text" th:field="*{$field.formattedName(0)}" class="form-control" />
+									<span class="help-block" th:if="${DOLLAR}{#fields.hasErrors('$field.formattedName(0)')}" th:errors="*{$field.formattedName(0)}"></span>                                                   
+								</div>
+							</div>
+					#if($countCol == 2)
+						</div>
+						#set($countCol = 1)
+					#else
+						#set($countCol = $countCol + 1)	
+					#end		
+									
 				#end
 			#end
-			
-			#set($countField = 0)
-			#foreach($field in $dataFields)
-				#if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
-				&& $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
-				&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode'
-				&& $field.formattedName(0) != 'notes' && $field.formattedName(0) != 'description' && $field.formattedName(0) != 'reason')			
-					#if($countField > $halfSizeFields)
-				    <div class="form-group" th:classappend="${DOLLAR}{#fields.hasErrors('$field.formattedName(0)')} ? has-error : ''">
-                        <label class="col-sm-4 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}̃</label>
-                        <div class="col-sm-8" >
-                            <input type="text" th:field="*{$field.formattedName(0)}" class="form-control" />
-                            <span class="help-block" th:if="${DOLLAR}{#fields.hasErrors('$field.formattedName(0)')}" th:errors="*{$field.formattedName(0)}"></span>                                                   
-                        </div>
-                    </div>
-					#end
-					#set($countField = $countField  + 1)
-				#end
-			#end
-		
-		</div>
+					
+	
 	
 				#foreach($field in $dataFields)
 					#if( $field.formattedName(0) == 'reason')

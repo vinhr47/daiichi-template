@@ -115,6 +115,7 @@ public class ${serviceImplName} implements ${serviceName}{
 	public void saveOrUpdate(${entity.name}Dto ${uncapitalizedEntityName}Dto){	
 		String userNameLogin = UserProfileUtils.getUserNameLogin();
         Long id = ${uncapitalizedEntityName}Dto.getId();
+		ModelMapper mapper = new ModelMapper();
         if( null != id ) {
 			//update data
         	${entity.name} entity = ${uncapitalizedRepoName}.findOne(id);
@@ -127,13 +128,15 @@ public class ${serviceImplName} implements ${serviceName}{
 			${uncapitalizedRepoName}.save(entity);
         }else{
 			//create data
-			ModelMapper mapper = new ModelMapper();
+		
 			${entity.name} ${uncapitalizedEntityName} = new ${entity.name}();
 			${uncapitalizedEntityName} = mapper.map(${uncapitalizedEntityName}Dto, ${entity.name}.class);
         	${uncapitalizedEntityName}.setCreatedBy(userNameLogin);
         	${uncapitalizedEntityName}.setCreatedDate(new Date());
 			${uncapitalizedRepoName}.save(${uncapitalizedEntityName});
+			dmsAssetDto = mapper.map(${uncapitalizedEntityName}, ${entity.name}Dto.class);
         }
+		
 	}
 
 	@Override
