@@ -16,7 +16,7 @@
 		</div>			                           
             <input type="hidden" th:field="*{id}" />
        <div class="col-sm-12 p-0">
-			<div class="col-md-6">
+		
 			#foreach($field in $dataFields)
 				#if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
 				&& $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
@@ -35,8 +35,7 @@
 					#set($countField = $countField + 1)
 				#end
 			#end
-			</div>
-			<div class="col-md-6">
+			
 			#set($countField = 0)
 			#foreach($field in $dataFields)
 				#if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
@@ -55,7 +54,7 @@
 					#set($countField = $countField  + 1)
 				#end
 			#end
-			</div>
+		
 		</div>
 	
 				#foreach($field in $dataFields)
