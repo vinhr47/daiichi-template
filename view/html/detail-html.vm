@@ -4,6 +4,7 @@
 #set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
 #set( $halfSizeFields = ($fn.size($dataFields) - 8)/2)
 #set( $countField = 0)
+#set( $countCol = 1)
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
