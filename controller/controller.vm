@@ -33,7 +33,7 @@ import vn.com.unit.jcanary.common.PageWrapper;
 import vn.com.unit.jcanary.constant.UrlConst;
 import vn.com.unit.jcanary.constant.ViewConstant;
 import vn.com.unit.jcanary.utils.SearchSessionUtils;
-import vn.com.unit.jcanary.controller.AbstractController;
+import vn.com.unit.jcanary.controller.MasterController;
 import org.springframework.web.bind.annotation.PostMapping;
 import ${ROOT_PKG}.validator.${entity.name}Validator;
 import ${ROOT_PKG}.entity.${entity.name}Import;
@@ -50,7 +50,7 @@ import ${servicePackage}.${serviceName};
  */
 @Controller
 @RequestMapping("/${urlEntityName}")
-public class ${entity.name}Controller extends AbstractController {
+public class ${entity.name}Controller extends MasterController {
 	/** define xml view list */
 	private static final String VIEW_LIST = "${urlEntityName}.list";
     /** define xml view table */
