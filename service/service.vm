@@ -32,4 +32,8 @@ public interface ${serviceName} {
 	public void exportExcel($dtoSearchName searchDto, HttpServletResponse res, Locale locale);
 
     public void moveTempDataToMainTable(String importId);
+
+	public boolean validImport(String[] ids);
+
+	public boolean saveImport(String[] ids, String sessionKey);
 }

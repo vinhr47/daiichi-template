@@ -1,0 +1,106 @@
+#parse("/include/packages_variables.vm")
+#parse("/include/init_var_entity.vm")
+#parse("/include/java_header.vm")
+
+#set( $urlEntityName = $fn.toLowerCase($entity.name))
+#set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
+#set( $referencedEntities = $entity.referencedEntityTypes() )
+#set( $serviceName = "${entity.name}Service")
+#set( $uncapitalizedServiceName = $fn.uncapitalize($serviceName) )
+#set( $searchDtoName = "${entity.name}SearchDto")
+#set( $enumSearchName = "${entity.name}SearchEnum")
+
+package ${target.javaPackageFromFolder($SRC)};
+
+import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import vn.com.unit.constant.ConstantCore;
+import vn.com.unit.constant.Message;
+import vn.com.unit.constant.MessageList;
+import vn.com.unit.dms.constant.AdminUrlConst;
+import vn.com.unit.jcanary.common.PageWrapper;
+import vn.com.unit.jcanary.constant.UrlConst;
+import vn.com.unit.jcanary.constant.ViewConstant;
+import vn.com.unit.jcanary.utils.SearchSessionUtils;
+import vn.com.unit.jcanary.controller.AbstractController;
+import org.springframework.web.bind.annotation.PostMapping;
+import ${ROOT_PKG}.validator.${entity.name}Validator;
+import vn.com.unit.jcce.dto.ImportParamsDto;
+
+//--- import entity Dto
+import ${dtoPackage}.${entity.name}Dto;
+//--- import SearchDto
+import ${dtoPackage}.${searchDtoName};
+//--- import $searchDtoName
+import ${servicePackage}.${serviceName};
+
+/**
+ * Spring MVC controller for '${entity.name}' management.
+ */
+@Controller
+@RequestMapping("/${urlEntityName}")
+public class ${entity.name}ImportController extends MasterController {
+	/** define xml view list */
+	private static final String VIEW_LIST = "${urlEntityName}.list";
+    /** define xml view table */
+    private static final String VIEW_TABLE = "${urlEntityName}.table";
+    /** define xml view detail */
+    private static final String VIEW_DETAIL  = "${urlEntityName}.detail";
+	/** define xml view edit */
+	private static final String VIEW_EDIT  = "${urlEntityName}.edit";
+
+    /**Define Role for this page - ROLE_AUTHED for default*/
+    private static final String SCREEN_FUNCTION_CODE = "ROLE_AUTHED"; // RoleConstant.${entity.name}
+	/**Define Template Excel for Download Template & Export Excel */
+	private static final String TEMPLATE_EXPORT_EXCEL = "TemplateExport"; //ExcelConst.${entity.name};
+	private static final String URL_ENTITY = "/${urlEntityName}";
+	private static final String URL_LIST = "${urlEntityName}" + UrlConst.LIST;
+	
+	private static final String ALERT_MESSAGE = "message.alert";
+
+	@Autowired
+    private ${serviceName} ${uncapitalizedServiceName};
+
+	/** Service Validate data */
+	@Autowired
+	private ${entity.name}Validator ${uncapitalizedEntityName}Validator;
+
+	
+	@RequestMapping(value = AdminUrlConst.SAVE_IMPORT, method = RequestMethod.POST)
+    @ResponseBody
+    public ModelAndView save(@RequestBody ImportParamsDto importParamsDto, Locale locale) {
+   		// Security for this page.
+        if(securityForPage(SCREEN_FUNCTION_CODE)){
+			return new ModelAndView(ViewConstant.ACCESS_DENIED_MODELANDVIEW);
+		}
+        ModelAndView mav = new ModelAndView(ALERT_MESSAGE);
+        String[] ids = importParamsDto.getIds();
+        if (${uncapitalizedServiceName}.validImport(ids) && ${uncapitalizedServiceName}.saveImport(ids, importParamsDto.getSessionKey())) {
+            MessageList messageList = new MessageList(Message.SUCCESS);
+            String msgSuccess = msg.getMessage(ConstantCore.MSG_SUCCESS_SAVE, null, locale);
+            messageList.add(msgSuccess);
+            mav.addObject(ConstantCore.MSG_LIST, messageList);
+            return mav;
+        }
+
+        MessageList messageList = new MessageList(Message.ERROR);
+        String msgError = msg.getMessage(ConstantCore.MSG_FAIL_SAVE, null, locale);
+        messageList.add(msgError);
+        mav.addObject(ConstantCore.MSG_LIST, messageList);
+        return mav;
+    }
+
+	
+}

@@ -12,10 +12,6 @@
 
 package ${target.javaPackageFromFolder($SRC)};
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -33,16 +29,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.com.unit.constant.ConstantCore;
 import vn.com.unit.constant.Message;
 import vn.com.unit.constant.MessageList;
-import vn.com.unit.jcanary.constant.CommonConstant;
 import vn.com.unit.jcanary.common.PageWrapper;
 import vn.com.unit.jcanary.constant.UrlConst;
 import vn.com.unit.jcanary.constant.ViewConstant;
 import vn.com.unit.jcanary.utils.SearchSessionUtils;
+import vn.com.unit.jcanary.controller.AbstractController;
 import org.springframework.web.bind.annotation.PostMapping;
 import ${ROOT_PKG}.validator.${entity.name}Validator;
-import ${ROOT_PKG}.service.${entity.name}ImportService;
 import ${ROOT_PKG}.entity.${entity.name}Import;
-import ${ROOT_PKG}.constant.DmsUrlConst;
 
 //--- import entity Dto
 import ${dtoPackage}.${entity.name}Dto;
@@ -56,7 +50,7 @@ import ${servicePackage}.${serviceName};
  */
 @Controller
 @RequestMapping("/${urlEntityName}")
-public class ${entity.name}Controller implements CommonImportExcelInterface<${entity.name}Import> {
+public class ${entity.name}Controller extends AbstractController {
 	/** define xml view list */
 	private static final String VIEW_LIST = "${urlEntityName}.list";
     /** define xml view table */
@@ -65,10 +59,6 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
     private static final String VIEW_DETAIL  = "${urlEntityName}.detail";
 	/** define xml view edit */
 	private static final String VIEW_EDIT  = "${urlEntityName}.edit";
-	/** define xml view edit */
-	private static final String VIEW_IMPORT_LIST  = "${urlEntityName}.import.list";
-	/** define xml view edit */
-	private static final String VIEW_IMPORT_TABLE  = "${urlEntityName}.import.table";
 
     /**Define Role for this page - ROLE_AUTHED for default*/
     private static final String SCREEN_FUNCTION_CODE = "ROLE_AUTHED"; // RoleConstant.${entity.name}
@@ -86,12 +76,6 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
 	/** MessageSource */
 	@Autowired
 	private MessageSource msg;
-
-	@Autowired
-	private ServletContext servletContext;
-
- 	@Autowired
-    private ${entity.name}ImportService ${uncapitalizedEntityName}ImportService;
 
 	/**
      * showList
@@ -309,93 +293,5 @@ public class ${entity.name}Controller implements CommonImportExcelInterface<${en
         return mav;
     }  
 
-	/**
-	 * 
-	 * @param searchDto
-	 * @param req
-	 * @param res
-	 * @param locale
-	 * @author telosys
-	 */
-	@PostMapping(DmsUrlConst.EXPORT_EXCEL)
-    public void exportListNonExport(@ModelAttribute(value = "searchDto") $searchDtoName searchDto, HttpServletRequest req,
-            HttpServletResponse res, Locale locale) {
-            ${uncapitalizedServiceName}.exportExcel(searchDto, res, locale);
-    }
-
-	/**
-	* do search import display
-	* @author telosys
-	*/
-    @Override
-    public PageWrapper<${entity.name}Import> searchImport(int page, String importId, String sortRowNum, String sortMessage, Locale locale, String optionSort, int pageSize, ModelAndView mav) throws Exception {
-        return ${uncapitalizedEntityName}ImportService.searchImport(page, importId, sortRowNum, sortMessage, ${entity.name}Import.class, locale, optionSort, pageSize);
-    }
 	
-	/**
-	* Template for Export data
-	* @author telosys
-	*/
-    @Override
-    public String getTemplateName(Locale locale) {
-        return TEMPLATE_EXPORT_EXCEL + CommonConstant.TYPE_EXCEL;
-    }
-	
-	/**
-	* Validate data before import to table temp
-	* @author telosys
-	*/
-    @Override
-    public void validateListData(List<${entity.name}Import> lstT, Locale locale) throws Exception {
-           ${uncapitalizedEntityName}ImportService.validate(lstT, locale);
-    }
-	
-	/**
-	* save data import to table temp
-	* @author telosys
-	*/
-    @Override
-    public void saveLstImport(List<${entity.name}Import> lstT) {
-        ${uncapitalizedEntityName}ImportService.saveLstData(lstT);
-    }
-
-    @Override
-    public boolean moveTempDataToMainTable(String importId, Locale locale){
-    	try{
-    		${uncapitalizedServiceName}.moveTempDataToMainTable(importId);
-    		return true;
-    	}catch(Exception e) {
-    		return false;
-    	}
-    }
-	
-	/**
-	* get url for go back list display after import data
-	* @author telosys
-	*/
-	@Override
-	public String getUrlController() {
-		return "${urlEntityName}";
-	}
-
-	@Override
-    public ServletContext getServletContext() {
-        return servletContext;
-    }
-
-    @Override
-    public MessageSource messageSource(){
-    	return this.msg;
-    }
-
-    @Override
-    public String getViewImportList() {
-        return VIEW_IMPORT_LIST;
-    }
-
-    @Override
-    public String getViewImportTable() {
-        return VIEW_IMPORT_TABLE;
-	}
-
 }

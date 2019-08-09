@@ -52,4 +52,12 @@ public interface ${repositoryName} extends MirageRepository<${entity.name}, Long
      */
 	public List<${entity.name}> exportExcelWithCondition(
             @Param("searchDto") ${dtoSearchName} searchDto);
+
+	/** countErrorImportbyIds
+	 *
+	 * @param lstIds
+	 * @return
+	 * @author telosys
+	 */
+	public int countErrorImportbyIds(List<String> lstIds);
 }

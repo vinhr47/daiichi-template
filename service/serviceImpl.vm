@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import vn.com.unit.exception.BusinessException;
 import vn.com.unit.jcanary.authentication.UserProfileUtils;
@@ -37,6 +38,7 @@ import javax.servlet.ServletContext;
 import jp.sf.amateras.mirage.SqlManager;
 import ${ROOT_PKG}.dto.TransferDataImportParam;
 import ${ROOT_PKG}.constant.ExcelConst;
+import vn.com.unit.jcce.dto.ImportParamsForStoreDto;
 
 //--- Entities
 import ${entityPackage}.${entity.name};
@@ -72,6 +74,8 @@ public class ${serviceImplName} implements ${serviceName}{
 
  	private static final String SP_TRANSFER_DATA = "SP_TRANSFER_DATA"; 
 	private static final Logger logger = LoggerFactory.getLogger(${serviceImplName}.class);	
+
+	private static final String SP_IMPORT_COMMON = "SP_IMPORT_COMMON";
 
 	/**
 	 * Shows a list with all the occurrences of ${entity.name} found in the database
@@ -193,4 +197,24 @@ public class ${serviceImplName} implements ${serviceName}{
 #end
 #end		
 	}
+
+	@Override
+	public boolean saveImport(String[] ids, String sessionKey) {
+		ImportParamsForStoreDto params = new ImportParamsForStoreDto();
+		params.userlogin = UserProfileUtils.getUserNameLogin();
+		params.pListId = String.join(",", ids);
+		params.sessionKey = sessionKey;
+		sqlManager.call(SP_IMPORT_COMMON, params);
+		return params.f == 1;
+	}
+
+	@Override
+	public boolean validImport(String[] ids) {
+	    if (ids.length == 0) {
+	         return false;
+	    }
+	    List<String> lstIds = Arrays.asList(ids);
+	    return ${uncapitalizedRepoName}.countErrorImportbyIds(lstIds) == 0;
+	}
+
 }
