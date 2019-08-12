@@ -31,6 +31,7 @@ import vn.com.unit.jcanary.constant.UrlConst;
 import vn.com.unit.jcanary.constant.ViewConstant;
 import vn.com.unit.jcce.controller.BaseMasterController;
 import ${ROOT_PKG}.validator.${entity.name}Validator;
+import vn.com.unit.dms.dto.${entity.name}Dto;
 import vn.com.unit.jcce.dto.ImportParamsDto;
 
 //--- import $searchDtoName
@@ -41,7 +42,7 @@ import ${servicePackage}.${serviceName};
  */
 @Controller
 @RequestMapping("/${urlEntityName}-import")
-public class ${entity.name}ImportController extends MasterController {
+public class ${entity.name}ImportController extends BaseMasterController {
 
     /**Define Role for this page - ROLE_AUTHED for default*/
     private static final String SCREEN_FUNCTION_CODE = "ROLE_AUTHED"; // RoleConstant.${entity.name}
