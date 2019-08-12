@@ -1,0 +1,3 @@
+select *
+from DMS_IMPORT_${entity.databaseTable}
+WHERE SESSION_KEY = /*sessionKey*/ AND code = /*code*/

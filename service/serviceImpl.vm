@@ -216,5 +216,8 @@ public class ${serviceImplName} implements ${serviceName}{
 	    List<String> lstIds = Arrays.asList(ids);
 	    return ${uncapitalizedRepoName}.countErrorImportbyIds(lstIds) == 0;
 	}
-
+	@Override
+	public ${entity.name}Dto getDtoFromImport(String code, String sessionKey) {
+		return ${uncapitalizedRepoName}.findFromImport(code, sessionKey);
+	}
 }

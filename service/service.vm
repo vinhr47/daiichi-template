@@ -36,4 +36,6 @@ public interface ${serviceName} {
 	public boolean validImport(String[] ids);
 
 	public boolean saveImport(String[] ids, String sessionKey);
+
+	public ${entity.name}Dto getDtoFromImport(String assetCode, String sessionKey);
 }

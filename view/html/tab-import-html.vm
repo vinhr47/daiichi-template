@@ -5,49 +5,123 @@
 #set( $halfSizeFields = ($fn.size($dataFields) - 8 )/2)
 #set( $countField = 0)
 #set( $dmn = $fn.toLowerCase($entity.name))
+#set( $dmUpper = $fn.toUpperCase($entity.name))
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<body>	
-<div class="bg-content clearfix">
-	<form class="form-horizontal j-formSearch" id="fmUpload" method="POST" role="form" enctype="multipart/form-data">
-		<div class="row">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
-			<div class="col-xs-12 col-sm-12 no-padding" style="margin-top: 10px;">
-				<div class="form-group">
-					<div class="col-xs-12 col-sm-12">
-						<div class="col-sm-2">
-								<label th:text="#{dmsasset.import.excel}"></label>
-							</div>
-							<div class="col-sm-2">
-								<a class="fileupload cus-upload"> <span>Add files...</span> <input id="template-upload" type="file" name="files"
-									accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-									class="upload" />
-								</a>
-							</div>
-							<div class="col-sm-2" id="fileList"></div>
-					</div>
-				</div>
-			</div>
-
-
-			<div id="form-download-template" class="col-xs-12 col-sm-12">
-				<div class="form-group">
-					<div class="col-xs-12 col-sm-12 no-padding">
-						<div class="col-sm-2">
-							<label th:text="#{${entityLC}.file.import}">Template Import</label>
-						</div>
-						<div class="col-sm-8">
-							<a th:href="@{${DOLLAR}{'/${dmn}' + T(vn.com.unit.jcanary.constant.UrlConst).URL_DOWNLOAD_TEMPLATE_EXCEL}}"
-								id="download-template-id"> Download Template</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-</div>
-<div class="bg-content clearfix">
-	<th:block th:include="views/${nameLC}/tab-${nameLC}-import-table.html" />
-</div>
+<body th:fragment="content">
+	
+	<div id="messageImport"></div>
+	<div id="boxImportData"></div>
+	<div id="boxData"></div>
+	<div class="text-center" style="margin-bottom: 10px;">
+		<a type="button" class="btn btn-primary" id="btnImport" th:text="#{submit.button}">Submit</a>
+	</div>
+	<input type="hidden" id="subController" value="/ajaxList" />
 </body>
+<script type="text/javascript">
+
+var importObject = {
+	boxTableOrg : 'boxData',
+	boxImportOrg : 'boxImportData',
+	tabImport : 'import-excel0',
+	controllerName : '${dmn}-import',
+	subController : '/ajaxList',
+	functionCode : '${dmUpper}_IMPORT',
+	sessionKey : $("#sessionKey").val()
+}
+
+var importAction = {
+	showMessage : function(html) {
+		$(".main_content div").remove(".alert");
+		$("#"+importObject.tabImport).prepend(html);
+	},
+	submit : function() {
+		var ids = importAction.getDataImport();
+		if (ids.length == 0) {
+			popupAlert(MSG_REQUIRE_CHECK_ITEM);
+			return;
+		}
+		var url = BASE_URL + importObject.controllerName + "/save-import";
+		blockbg();
+		$.ajax({
+				contentType : "application/json",
+				type : "POST",
+				url : url,
+				data : JSON.stringify({
+					ids : importAction.getDataImport(),
+					sessionKey : $(".linkViewImport").attr('data-attr')
+				}),
+				success : function(data) {
+					$("#messageImport").html("");
+					$("#messageImport").html(data);
+					var sessionKey = $(".linkViewImport").attr('data-attr');
+					$('.tab-class a[href="#import-assets-master-tab"]').tab('show');
+					getData(importObject.controllerName, importObject.subController, importObject.boxImportOrg,
+							importObject.boxTableOrg, sessionKey, importObject.functionCode, 
+							function(data) {
+								$("#" + importObject.boxTableOrg).html(data);
+								$(".linkViewImport").attr('data-attr', importObject.sessionKey);
+								loadLink(importObject.controllerName, importObject.sessionKey);
+							});
+		
+				},
+				error : function(data) {},
+			}).always(function() {
+				unblockbg()
+		});
+	},
+	getDataImport : function() {
+		var checked = [];
+		
+		$('#boxData table tbody').find('input[type="checkbox"]:checked').each(function(e) {
+			var id = $($($(this).parent()).parent()).find('.attr-key').val();
+			checked.push(id);
+		});
+			
+		
+		return checked;
+	}
+}
+
+function loadLinkCallback(controller,sessionKey,element){
+	var assetCode = element.find('span').text();
+	var URL = BASE_URL + controller + "/detail";
+	$.ajax({
+		url : URL,
+		type : "POST",
+		data : {
+			assetCode : assetCode,
+			sessionKey : sessionKey
+		},
+		beforeSend : function() {
+			blockbg();
+		},
+		success : function(data) {
+			addContentView(data);
+		},
+
+	}).always(function() {
+		unblockbg();
+	});
+};
+
+
+$(function($) {
+	buildBoxImport(importObject.controllerName, importObject.tabImport, importObject.boxTableOrg, function(data) {
+		$("#" + importObject.boxImportOrg).html(data)
+	});
+	getData(importObject.controllerName, importObject.subController, importObject.boxImportOrg,
+			importObject.boxTableOrg, importObject.sessionKey, importObject.functionCode, function(data) {
+				$("#" + importObject.boxTableOrg).html(data);
+				$(".linkViewImport").attr('data-attr', importObject.sessionKey);
+				loadLink(importObject.controllerName, importObject.sessionKey);
+			});
+	$("#btnImport").click(function(e) {
+		e.preventDefault();
+		importAction.submit();
+	});
+});
+</script>
 </html>

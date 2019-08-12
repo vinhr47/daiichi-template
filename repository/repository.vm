@@ -59,5 +59,14 @@ public interface ${repositoryName} extends MirageRepository<${entity.name}, Long
 	 * @return
 	 * @author telosys
 	 */
-	public int countErrorImportbyIds(List<String> lstIds);
+	public int countErrorImportbyIds(@Param("lstIds") List<String> lstIds);
+
+	/** findFromImport
+	 *
+	 * @param assetCode
+	 * @param sessionKey
+	 * @return
+	 * @author telosys
+	 */
+	public DmsAssetDto findFromImport(@Param("code") String code, @Param("sessionKey")String sessionKey);
 }
