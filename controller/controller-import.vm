@@ -13,6 +13,8 @@
 
 package ${target.javaPackageFromFolder($SRC)};
 
+import javax.annotation.PostConstruct;
+
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,7 +62,11 @@ public class ${entity.name}ImportController extends BaseMasterController {
 	@Autowired
     private ${serviceName} ${uncapitalizedServiceName};
 
-	
+	@PostConstruct
+    public void initialize() {
+        super.initialize(FUNCTION_CODE, CONTROLLER_NAME);
+    }
+
 	@RequestMapping(value = AdminUrlConst.SAVE_IMPORT, method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView save(@RequestBody ImportParamsDto importParamsDto, Locale locale) {
