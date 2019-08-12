@@ -293,5 +293,17 @@ public class ${entity.name}Controller extends MasterController {
         return mav;
     }  
 
-	
+	/**
+	 * 
+	 * @param searchDto
+	 * @param req
+	 * @param res
+	 * @param locale
+	 * @author telosys
+	 */
+	@PostMapping(DmsUrlConst.EXPORT_EXCEL)
+    public void exportListNonExport(@ModelAttribute(value = "searchDto") $searchDtoName searchDto, HttpServletRequest req,
+            HttpServletResponse res, Locale locale) {
+            ${uncapitalizedServiceName}.exportExcel(searchDto, res, locale);
+    }
 }

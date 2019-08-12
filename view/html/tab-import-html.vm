@@ -9,19 +9,23 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-
+<script type="text/javascript" th:src="@{/static/js/plupload-3.1.2/plupload.full.min.js}"></script>	
 <body th:fragment="content">
 	
 	<div id="messageImport"></div>
 	<div id="boxImportData"></div>
 	<div id="boxData"></div>
 	<div class="text-center" style="margin-bottom: 10px;">
-		<a type="button" class="btn btn-primary" id="btnImport" th:text="#{submit.button}">Submit</a>
+		<a type="button" class="btn btn-common" id="btnImport" th:text="#{submit.button}">Submit</a>
 	</div>
 	<input type="hidden" id="subController" value="/ajaxList" />
+	<input type="hidden" class="controllerName" value="${dmn}-import" />
 </body>
 <script type="text/javascript">
-
+var CONTROLLER_NAME = 'dmsasset-import';
+function setConditionSearch(){
+	
+}
 var importObject = {
 	boxTableOrg : 'boxData',
 	boxImportOrg : 'boxImportData',
