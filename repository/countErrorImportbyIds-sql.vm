@@ -1,6 +1,6 @@
 #set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
 select count(*)
-from DMS_IMPORT_${entity.databaseTable}
+from ${entity.databaseTable}_IMPORT
 WHERE
 1=1
 /*IF ids != NULL*/

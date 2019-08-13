@@ -5,7 +5,7 @@
 #set( $halfSizeFields = ($fn.size($dataFields) - 8 )/2)
 #set( $countField = 0)
 #set( $dmn = $fn.toLowerCase($entity.name))
-#set( $dmUpper = $fn.toUpperCase($entity.name))
+#set( $dmUpper = $fn.toUpperCase($entity.databaseTable))
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
@@ -18,20 +18,15 @@
 	<div class="text-center" style="margin-bottom: 10px;">
 		<a type="button" class="btn btn-common" id="btnImport" th:text="#{submit.button}">Submit</a>
 	</div>
-	<input type="hidden" id="subController" value="/ajaxList" />
-	<input type="hidden" class="controllerName" value="${dmn}-import" />
+	<input type="hidden" id="subController" value="/ajaxListForTab" />
 </body>
 <script type="text/javascript">
-var CONTROLLER_NAME = 'dmsasset-import';
-function setConditionSearch(){
-	
-}
 var importObject = {
 	boxTableOrg : 'boxData',
 	boxImportOrg : 'boxImportData',
 	tabImport : 'import-excel0',
 	controllerName : '${dmn}-import',
-	subController : '/ajaxList',
+	subController : '/ajaxListForTab',
 	functionCode : '${dmUpper}_IMPORT',
 	sessionKey : $("#sessionKey").val()
 }

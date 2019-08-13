@@ -10,12 +10,15 @@
 #set( $searchDtoName = "${entity.name}SearchDto")
 #set( $enumSearchName = "${entity.name}SearchEnum")
 #set( $dmUpper = $fn.toUpperCase($entity.name))
+#set( $tableDB = $fn.toUpperCase($entity.databaseTable))
 
 package ${target.javaPackageFromFolder($SRC)};
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 import java.util.Locale;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import vn.com.unit.jcce.dto.ItemController;
+import vn.com.unit.jcce.dto.ItemBuildMaster;
 
 import vn.com.unit.constant.ConstantCore;
 import vn.com.unit.constant.Message;
@@ -31,6 +36,7 @@ import vn.com.unit.constant.MessageList;
 import vn.com.unit.dms.constant.AdminUrlConst;
 import vn.com.unit.jcanary.constant.UrlConst;
 import vn.com.unit.jcanary.constant.ViewConstant;
+import vn.com.unit.jcanary.config.SystemConfig;
 import vn.com.unit.jcce.controller.BaseMasterController;
 import ${ROOT_PKG}.validator.${entity.name}Validator;
 import vn.com.unit.dms.dto.${entity.name}Dto;
@@ -54,10 +60,11 @@ public class ${entity.name}ImportController extends BaseMasterController {
 
   	private static final String MAV_FILL_IMPORT_MAIN = "${urlEntityName}.edit";
 
-	private static final String FUNCTION_CODE = "${dmUpper}_IMPORT";
+	private static final String FUNCTION_CODE = "${tableDB}_IMPORT";
 	
 	private static final String CONTROLLER_NAME = "${urlEntityName}-import";
 
+	private static final String CONTROLLER_FIELD_NAME = "controllerName";
 
 	@Autowired
     private ${serviceName} ${uncapitalizedServiceName};
@@ -102,5 +109,57 @@ public class ${entity.name}ImportController extends BaseMasterController {
 	        mav.addObject("sessionKey", sessionKey);
 	        mav.addObject("${uncapitalizedEntityName}Dto", dto);
 	        return mav;
+	 }
+
+		@Override
+	    public ModelAndView getAjaxListForTab(@ModelAttribute(value = "searchDto") ItemController itemController,
+	            @RequestParam(value = ConstantCore.PAGE_SIZE) Optional<Integer> pageSizeParam,
+	            @RequestParam(value = ConstantCore.PAGE) Optional<Integer> pageParam,
+	            @RequestParam(value = "boxTableId", required = false, defaultValue = "0") String boxTableId,
+	            @RequestParam(value = "boxMain", required = false, defaultValue = "0") String boxMain,
+	            HttpServletRequest request, Locale locale) {
+	        ModelAndView mav = new ModelAndView("base.master.table.message.error");
+	        if (itemController == null) {
+	            itemController = new ItemController();
+	        }
+	        // Init page size
+	        int pageSize = pageSizeParam.orElse(systemConfig.getIntConfig(SystemConfig.PAGING_SIZE));
+	        int page = pageParam.orElse(1);
+	        mav.addObject(CONTROLLER_FIELD_NAME, CONTROLLER_NAME);
+	        itemController.setFunctionCode(FUNCTION_CODE);
+	        itemController.setMav(mav);
+	        itemController.setPageSize(pageSize);
+	        itemController.setCurrentPage(page);
+	        itemController.setLangeCode(locale.toString());
+	        itemController.setRequest(request);
+	        itemController.setDatePattent(systemConfig.getConfig(SystemConfig.DATE_PATTERN));
+	        /*super.getList(itemController);*/
+	        itemController.getMav().addObject("boxMain", boxMain);
+	        itemController.getMav().addObject("boxTableId", boxTableId);
+	        super.getListForImport(itemController);
+	        return itemController.getMav();
 	    }
+	@Override
+    public ModelAndView buildBoxImport(
+            @RequestParam(value = "boxTableId", required = false, defaultValue = "0") String boxTableId,
+            @RequestParam(value = "boxMain", required = false, defaultValue = "0") String boxMain,
+            HttpServletRequest request, Locale locale) {
+        ModelAndView mav = new ModelAndView("base-master-import-message-error");
+        boolean exportData = false;
+        ItemBuildMaster itemMasterExp = baseService.getInfoBuildMaster(FUNCTION_CODE+"_EXP");
+        if (itemMasterExp != null)
+            exportData = true;
+        ItemController itemController = new ItemController();
+        mav.addObject(CONTROLLER_FIELD_NAME, CONTROLLER_NAME);
+        itemController.setFunctionCode(FUNCTION_CODE);
+        itemController.setMav(mav);
+        itemController.setLangeCode(locale.toString());
+        itemController.setRequest(request);
+        itemController.setDatePattent(systemConfig.getConfig(SystemConfig.DATE_PATTERN));
+        super.buildBoxImport(itemController);
+        itemController.getMav().addObject("boxMain", boxMain);
+        itemController.getMav().addObject("boxTableId", boxTableId);
+        itemController.getMav().addObject("exportData", exportData);
+        return itemController.getMav();
+    }    
 }
