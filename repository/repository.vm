@@ -68,5 +68,5 @@ public interface ${repositoryName} extends MirageRepository<${entity.name}, Long
 	 * @return
 	 * @author telosys
 	 */
-	public DmsAssetDto findFromImport(@Param("code") String code, @Param("sessionKey")String sessionKey);
+	public ${entity.name}Dto findFromImport(@Param("code") String code, @Param("sessionKey")String sessionKey);
 }
