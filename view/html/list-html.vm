@@ -1,34 +1,60 @@
 #set( $nameLC = ${entity.name.toLowerCase()} )
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
-<script type="text/javascript"
-	th:src="@{/static/jquery/multiple-select/js/jquery.multiselect.js}"></script>
-<link rel="stylesheet" type="text/css"
-	th:href="@{/static/jquery/multiple-select/css/jquery.multiselect.css}" />	
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/static/jquery/multiple-select/css/jquery.multiselect.css}"/>
+<script type="text/javascript" th:src="@{/static/jquery/multiple-select/js/jquery.multiselect.js}"></script>
+
 
 <body>
-	<div class="title-head clearfix">
-		<div class="col-sm-9 col-xs-7 no-padding">
-			<h3>
-				<i class="fa fa-table"></i> <span th:text="#{${nameLC}.title}">Tittle Page</span>
-			</h3>
-		</div>
-	     <div class="col-sm-3 col-xs-5 icon-head">
-            <div class="pull-right">
-            
-              <a><i class="fa fa-plus-circle icon-head-red" id="add"></i></a>
+	<!-- BREADCRUMB -->
+    <div class="list-breadcrumb">
+        <div class="row">
+            <div class="col-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb align-items-center">
+                        <li class="breadcrumb-item"><span class="title-active-breadcrumb"> <span
+								th:text="#{${nameLC}.title}">Tiêu đề trang</span>
+                            </span>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a> <i class="fa fa-home"></i>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <div id="breadcrumb"></div>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-3">
+                <div class="pull-right gr-action-top" th:if="${#authorization.expression('hasAuthority(@roleConstant.ROLE_AUTHED +'':Edit'')')}">
+                    <ul>
+                        <li>
+                            <a class="circle-action"> <i class="fa fa-plus" id="add" title="Add"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-	</div>
-	 <th:block th:include="views/commons/message-alert.html :: content(${DOLLAR}{messageList})"/>
-     <th:block th:include="views/common-file-upload/popup-import-excel-simple.html :: content('${nameLC}')" />
+    </div>
+    <!-- END BREADCRUMB -->
+
+	<!-- MESSAGE -->
+ 	<th:block th:include="views/commons/message-alert.html :: content(${DOLLAR}{messageList})"/>
+	<!-- END MESSAGE -->
+
 	<!-- FORM SEARCH -->
-		<th:block th:include="views/${nameLC}/${nameLC}-search.html :: content"/>
+	<th:block th:include="views/${nameLC}/${nameLC}-search.html :: content"/>
+	<!-- END FORM SEARCH -->
+
+
 	<!-- HTML TABLE -->
 	<div class="bg-content clearfix bg-content-tbl" id="tableList">
 		<th:block th:include="views/${nameLC}/${nameLC}-table.html :: content"/>
 	</div>
+	<!-- END HTML TABLE -->
+
 </body>
 </html>
