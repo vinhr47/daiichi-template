@@ -9,101 +9,117 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <body>		
-	<div class="title-head clearfix">
-	   <div class="col-sm-9 col-xs-7 no-padding">
-			<h3>
-				<i class="fa fa-table"></i>
-				<span th:text="#{common.title.detail}">Title Page</span>
-			</h3>
-	   </div>
-	   <div class="col-sm-3 col-xs-5 icon-head">
-	        <div class="pull-right">
-				 <a>
-				 	<i class="fa fa-arrow-circle-left icon-head-red" id="linkList"></i>
-				 </a>
-				 <a>
-				 	<i class="fa fa-plus-circle icon-head-red" id = "add"></i>
-				 </a>
-	        </div>
-	   </div>
-	</div>	
-	<form class="form-horizontal u-for-page-top j-form-validate" id="form-edit" th:action="@{/}" th:object="${DOLLAR}{${uncapitalizedEntityName}Dto}" method="post" role="form">
+	<!-- BREADCRUMB -->
+	<div class="list-breadcrumb">
+		<div class="row">
+			<div class="col-9">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb align-items-center">
+						<li class="breadcrumb-item">
+	                        <span class="title-active-breadcrumb">
+	                            <span th:text="#{common.title.detail}">Title Page</span>
+	                        </span>
+						</li>
+						<li class="breadcrumb-item">
+							<a>
+								<i class="fa fa-home"></i>
+							</a>
+						</li>
+						<li class="breadcrumb-item">
+							<div id="breadcrumb"></div>
+						</li>
+					</ol>
+				</nav>
+			</div>
+			<div class="col-3">
+				<div class="pull-right gr-action-top" >
+					<ul>
+						<li>
+							<a id="linkList" class="circle-action">
+								<i class="fa fa-arrow-left"></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END BREADCRUMB -->
+
+
+	<form class="form-horizontal u-for-page-top j-form-validate" id="form-edit" th:action="@{/}" th:object="{DOLLAR}{${uncapitalizedEntityName}Dto}" method="post" role="form">
 		<th:block th:include="views/commons/message-alert.html :: content(${DOLLAR}{messageList})"/>
 		<div class="bg-content clearfix">
-			<div class="header-box">
-				<h2 class="title-box" th:text="#{${nameLC}.detail.title}" th:if="${DOLLAR}{${uncapitalizedEntityName}Dto.id != null}">Update</h2>
-			</div>			                           
-          
-           
+		    <div class="header-box">
+                <h2 class="title-box" th:text="#{${nameLC}.detail.title}" th:if="${DOLLAR}{${uncapitalizedEntityName}Dto.id != null}">Update</h2>
+            </div>
+			<div class="content-box">
+			
 			#foreach($field in $dataFields)
+				
 				#if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
 				&& $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
 				&& $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode'
 				&& $field.formattedName(0) != 'notes' && $field.formattedName(0) != 'description' && $field.formattedName(0) != 'reason')
-					
+
 					#if($countCol ==1)
-						<div class="col-sm-12 p-0 form-group">
+						<div class="row form-group align-items-center">
 					#end
-							<div>
-								<label class="col-sm-2 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}̃</label>
-								<div class="col-sm-4" >
-									<span th:text="${DOLLAR}{${uncapitalizedEntityName}Dto.$field.formattedName(0)}" class="form-control" ></span>
-								</div>
+							<label class="col-sm-2 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}</label>
+							<div class="col-sm-4" >
+								<span th:text="${DOLLAR}{${uncapitalizedEntityName}Dto.$field.formattedName(0)}" class="form-control" ></span>
 							</div>
 					#if($countCol == 2)
 						</div>
 						#set($countCol = 1)
 					#else
-						#set($countCol = $countCol + 1)	
-					#end		
-									
+						#set($countCol = $countCol + 1)
+					#end
+
+				#end
+
+			#end
+
+
+			#foreach($field in $dataFields)
+				
+				#if( $field.formattedName(0) == 'reason')
+					<div class="row form-group align-items-center">
+						<label class="col-md-2 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}</label>
+						<div class="col-md-10" >
+							<span class="form-control" th:text="${DOLLAR}{${uncapitalizedEntityName}Dto.$field.formattedName(0)}"></span>                                   
+						</div>
+					</div>
+				#end
+
+			#end
+
+			#foreach($field in $dataFields)
+				#if( $field.formattedName(0) == 'notes')
+					<div class="row form-group align-items-center">
+						<label class="col-md-2 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}</label>
+							<div class="col-md-10" >
+								<textarea class="form-control" rows="2" th:text="${DOLLAR}{${uncapitalizedEntityName}Dto.$field.formattedName(0)}" disabled="disabled"></textarea>
+							</div>
+					</div>
 				#end
 			#end
-					
-	
-	
-				#foreach($field in $dataFields)
-					#if( $field.formattedName(0) == 'reason')
-						<div class="col-sm-12 p-0">
-							<div class="form-group">
-								<label class="col-sm-2 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}̃</label>
-								<div class="col-sm-10" >
-									<span class="form-control" th:text="${DOLLAR}{${uncapitalizedEntityName}Dto.$field.formattedName(0)}"></span>                                   
-								</div>
-							</div>
-						</div>
-					#end
-				#end
-		
-		
-				#foreach($field in $dataFields)
-					#if( $field.formattedName(0) == 'notes')
-					<div class="col-sm-12 p-0">
-						<div class="form-group">
-							<label class="col-sm-2 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}̃</label>
-							<div class="col-sm-10" >
-								<textarea class="form-control" rows="2" th:text="${DOLLAR}{${uncapitalizedEntityName}Dto.$field.formattedName(0)}" disabled="disabled"></textarea>                                                
-							</div>
+
+			#foreach($field in $dataFields)
+				#if( $field.formattedName(0) == 'description')
+					<div class="row form-group align-items-center">
+						<label class="col-md-2 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}</label>
+						<div class="col-md-10" >
+							<textarea class="form-control" rows="5" th:text="${DOLLAR}{${uncapitalizedEntityName}Dto.$field.formattedName(0)}" disabled="disabled"></textarea>
 						</div>
 					</div>
-					#end
 				#end
-		
-		
-				#foreach($field in $dataFields)
-					#if( $field.formattedName(0) == 'description')
-					<div class="col-sm-12 p-0">
-						<div class="form-group">
-							<label class="col-sm-2 " for="$field.formattedName(0)" th:text="#{${nameLC}.$field.formattedName(0)}">${field.label}̃</label>
-							<div class="col-sm-10" >
-								<textarea class="form-control" rows="5" th:text="${DOLLAR}{${uncapitalizedEntityName}Dto.$field.formattedName(0)}" disabled="disabled"></textarea>                                                    
-							</div>
-						</div>
-					</div>
-					#end
-				#end
+			#end
+			
+			</div>
 		</div>
-	</form>	
+	</form>
+
 	<input type="hidden" id="url" name="url" th:value="${DOLLAR}{${uncapitalizedEntityName}Dto.url}"/>
 	<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-detail.js}"></script>
 	</body>
