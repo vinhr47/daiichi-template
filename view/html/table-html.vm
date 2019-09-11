@@ -55,11 +55,11 @@
 	                                	<a href="" th:if="${#authorization.expression('hasAuthority(@roleConstant.ROLE_AUTHED +'':Edit'')')}" class="u-btn-delete j-btn-delete"><i class="fa fa-trash"></i></a>
                                 	</div>	
 	                            </td> 
-								<!-- $field.formattedName(0) -->
 		                        #foreach( $field in $dataFields )
 		                               #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
 		                               && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
 		                               && $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode')
+								<!-- $field.formattedName(0) -->
 		                                         #if($field.jdbcTypeName == 'TIMESTAMP')
 		                                         <td class="text-center" th:text="${DOLLAR}{item.${field.formattedName(0)}} ? ${DOLLAR}{#dates.format(item.${field.formattedName(0)}, @menuConfig.getFormDate())}"></td>
 		                                         #elseif($field.jdbcTypeName == 'NUMERIC' || $field.jdbcTypeName == 'FLOAT' || $field.jdbcTypeName == 'DOUBLE' || $field.jdbcTypeName == 'LONG')
@@ -67,9 +67,9 @@
 												 #else
 		                                         <td th:text="${DOLLAR}{item.${field.formattedName(0)}}">$fn.toUpperCase($field.formattedName(0))</td>
 		                                         #end
+								<!-- END $field.formattedName(0) -->
 		                               #end
 		                        #end	
-								<!-- END $field.formattedName(0) -->
 		                    </tr>
 		    			    </th:block>																												
 		    			</tbody>	
