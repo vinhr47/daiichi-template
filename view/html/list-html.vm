@@ -44,15 +44,16 @@
 	<!-- MESSAGE -->
  	<th:block th:include="views/commons/message-alert.html :: content(${DOLLAR}{messageList})"/>
 	<!-- END MESSAGE -->
-
-	<!-- FORM SEARCH -->
-	<th:block th:include="views/${nameLC}/${nameLC}-search.html :: content"/>
-	<!-- END FORM SEARCH -->
-
-
-	<!-- HTML TABLE -->
-	<div class="bg-content clearfix bg-content-tbl" id="tableList">
-		<th:block th:include="views/${nameLC}/${nameLC}-table.html :: content"/>
+	<div class="bg-content clearfix">
+	      <!-- FORM SEARCH -->
+	      <th:block th:include="views/${nameLC}/${nameLC}-search.html :: content"/>
+	      <!-- END FORM SEARCH -->
+          
+          
+	      <!-- HTML TABLE -->
+	      <div class="bg-content-tbl" id="tableList">
+	      	<th:block th:include="views/${nameLC}/${nameLC}-table.html :: content"/>
+	      </div>
 	</div>
 	<!-- END HTML TABLE -->
 

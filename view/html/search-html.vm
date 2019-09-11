@@ -8,7 +8,7 @@
     <form class="form-horizontal u-for-page-top j-formSearch" th:object="${DOLLAR}{searchDto}" method="POST" role="form" th:action="@{/}" id="formSearch">
 	<th:block th:include="views/commons/message-alert.html :: content(${DOLLAR}{messageList}" />
 	<!-- ALL -->
-	<div class="bg-content clearfix">
+	
 
 		<!-- TITLE -->
 		<div data-toggle="collapse" data-target="#search-box" class="header-box"> 
@@ -84,7 +84,7 @@
        		</div>
       </div>
 
-	</div>
+
 	<!-- END ALL -->
 	</form>
     <script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-search.js}"></script>

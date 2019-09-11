@@ -3,10 +3,7 @@
 #set( $nameLC = ${entity.name.toLowerCase()} )
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-	
 	<body th:fragment="content">
-		<div class="col-sm-12 p-0">
-
 			<!-- TITLE -->
 		    <div class="header-box">
 		    	<div class="row">
@@ -80,7 +77,6 @@
 		    	</div>			
 		    </div>
 		    <!-- END CONTENT TABLE -->
-		</div>
 		<th:block th:include="views/commons/pagination-v2.html :: content(${DOLLAR}{pageWrapper})"/>
 		<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-table.js}"></script>
 	</body>
