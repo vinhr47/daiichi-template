@@ -25,11 +25,14 @@
 			#foreach($field in $dataFields)
                  #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
                  && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
-                 && $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'companyCode')
+                 && $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode')
 						
-						<!-- EACH ROW -->
+
                         #if($countField <= 2)
+                        #if($countField == 1)
+						<!-- EACH ROW -->
                         <div class="row form-group col-12">
+						#end
    								<!-- $field.formattedName(0) -->			
                                 #if($field.fullType == 'java.util.Date')
 								<div class="col-lg-6">
@@ -53,12 +56,18 @@
 								</div>
                                 #end
 								<!-- END $field.formattedName(0) -->
-						</div>
+ 								
+						#if($countField == 2)
+                        </div>
+						<!-- END EACH ROW -->
+						#end
+						#set($countField = $countField  + 1)
 						#else
 						#set($countField = 1)
                         #end
-						<!-- END EACH ROW -->
-                 #set($countField = $countField  + 1)
+						
+ 						
+                
                  #end
             #end
 
