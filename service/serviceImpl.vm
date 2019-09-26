@@ -152,8 +152,8 @@ public class ${serviceImplName} implements ${serviceName}{
 		Date systemDate = new Date();
 		if( null != id ) {
 			${entity.name} ${uncapitalizedEntityName} = ${uncapitalizedRepoName}.findOne(id);
-			${uncapitalizedEntityName}.setDeletedDate(systemDate);          
-			${uncapitalizedEntityName}.setDeletedBy(usernameLogin);
+			${uncapitalizedEntityName}.setUpdatedDate(systemDate);          
+			${uncapitalizedEntityName}.setUpdatedBy(usernameLogin);
 			${uncapitalizedEntityName}.setValidFlag(6);
 			${uncapitalizedRepoName}.save(${uncapitalizedEntityName});
 		}
