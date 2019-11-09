@@ -1,0 +1,43 @@
+#parse("/include/packages_variables.vm")
+#parse("/include/init_var_entity.vm")
+#parse("/include/java_header.vm")
+package ${target.javaPackageFromFolder(${SRC})};
+
+#foreach( $import in $java.imports($entity.attributes) )
+import $import;
+#end
+import java.util.List;
+##--------------------------------------------------------------------------------------------------------
+## Data fields = fields not in Primary Key and not in selected Links    
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+##--------------------------------------------------------------------------------------------------------
+
+/**
+ * Domain class for dto "${entity.name}Hist"
+ *
+ * @author telosys
+ *
+ */
+public class ${entity.name}HistSearchDto {
+
+       private Date modifiedDateFrom;
+
+       private Date modifiedDateTo;
+
+       public Date getModifiedDateFrom() {
+       return modifiedDateFrom;
+       }
+
+       public void setModifiedDateFrom(Date modifiedDateFrom) {
+       this.modifiedDateFrom = modifiedDateFrom;
+       }
+
+       public Date getModifiedDateTo() {
+       return modifiedDateTo;
+       }
+
+       public void setModifiedDateTo(Date modifiedDateTo) {
+       this.modifiedDateTo = modifiedDateTo;
+       }
+
+}
