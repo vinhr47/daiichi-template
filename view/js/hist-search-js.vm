@@ -1,0 +1,51 @@
+#set( $nameLC = ${entity.name.toLowerCase()} )
+
+${DOLLAR}(function(){
+    /* START XỬ LÝ INPUT CALENDAR */
+    $('.datepicker').datepicker({
+    format: COMMON_DATE_PICKER_DATE_FORMAT,
+    changeMonth: true,
+    changeYear: true,
+    autoclose: true,
+    keyboardNavigation : true,
+    orientation : 'bottom'
+    });
+
+    $('.datepicker > input').attr("placeholder", DATE_FORMAT);
+    /* END */
+
+    // on click search
+    $("#btnSearchHist").on('click', function(event) {
+        onClickSearchHistory(this, event);
+    });
+
+
+    // datatable load
+    $("#tableListHist").datatables({
+    url : BASE_URL + '${nameLC}/ajaxHistory',
+    type : 'POST',
+    setData : setConditionSearchHistory
+    });
+});
+
+
+/**
+* on click button search
+*/
+function onClickSearchHistory(element, event) {
+    setDataSearchHiddenHistory();
+    ajaxSearch("/ajaxHistory", setConditionSearchHistory(), "tableListHistory", element, event);
+}
+
+function  setConditionSearchHistory(){
+    var condition = {};
+    condition["modifiedDateFrom"] = $("#fieldModifiedDateFrom").val();
+    condition["modifiedDateTo"] = $("#fieldModifiedDateTo").val();
+    return condition;
+}
+
+function setDataSearchHiddenHistory() {
+    $("#fieldModifiedDateFrom").val($("#modifiedDateFrom").val());
+    $("#fieldModifiedDateTo").val($("#modifiedDateTo").val());
+}
+
