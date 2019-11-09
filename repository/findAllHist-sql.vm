@@ -1,0 +1,14 @@
+select *
+from ${entity.databaseTable}_HIST tb
+with (NOLOCK)
+WHERE
+
+/*IF searchDto.modifiedDateFrom == null || searchDto.modifiedDateTo == null*/
+	1 != 1
+/*END*/
+
+/*IF searchDto.modifiedDateFrom != null && searchDto.modifiedDateTo != null*/
+	tb.UPDATED_DATE BETWEEN /*searchDto.modifiedDateFrom*/ and /*searchDto.modifiedDateTo*/
+/*END*/
+)
+ORDER BY tb.UPDATED_DATE ASC
