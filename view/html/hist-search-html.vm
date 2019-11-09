@@ -1,0 +1,68 @@
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS) )
+#set( $nameLC = ${entity.name.toLowerCase()} )
+#set( $countField = 1)
+#set( $sizeList = $fn.size($dataFields) - 8)
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="content">
+<form class="form-horizontal u-for-page-top j-formSearch" th:object="${DOLLAR}{searchHistDto}" method="POST" role="form"
+      th:action="@{/}" id="formSearch">
+    <!-- TITLE -->
+    <div data-toggle="collapse" data-target="#search-box" class="header-box">
+        <h2 class="title-box" th:text="#{search.title}">Vung tim kiem</h2>
+        <div class="pull-right">
+            <i class="fa fa-minus pull-right" aria-hidden="true"></i>
+        </div>
+    </div>
+    <!-- END TITLE -->
+
+    <!-- CONTENT -->
+    <div class="collapse show" id="search-box">
+        <div class="content-box">
+
+            <div class="row form-group align-items-center">
+                <label  class="col-sm-2" th:text="#{}">Modified date from</label>
+                <div class="col-sm-4">
+                    <div class="input-group date datepicker">
+                        <input th:field="*{modifiedDateFrom}"  onkeyup="this.setAttribute('value', this.value);" value="" class="form-control"  type="text" autocomplete="on" />
+                        <div class="input-group-append">
+							        <span class="input-group-text">
+							            <i class="fa fa-calendar"></i>
+							        </span>
+                        </div>
+                    </div>
+                </div>
+                <label class="col-sm-2" th:text="#{}">Modified date to</label>
+                <div class="col-sm-4">
+                    <div class="input-group date datepicker">
+                        <input th:field="*{modifiedDateTo}"  onkeyup="this.setAttribute('value', this.value);" value="" class="form-control" type="text" autocomplete="on" />
+                        <div class="input-group-append">
+							        <span class="input-group-text">
+							            <i class="fa fa-calendar"></i>
+							        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BUTTON -->
+            <div class="col-md-12 center">
+                <div class="box-btn-footer">
+                    <a id="btnSearchHist" class="u-btn-common u-btn-effect"> <i class=" fa fa-search"
+                                                                            aria-hidden="true"></i> <span
+                            th:text="#{search.button}">Search</span></a>
+                </div>
+            </div>
+            <!-- END BUTTON -->
+        </div>
+    </div>
+    <!-- END ALL -->
+</form>
+
+<!-- BUTTON -->
+<input type="hidden" id="fieldModifiedDateFrom"/>
+<input type="hidden" id="fieldModifiedDateTo"/>
+<input type="hidden" id="url" name="url" th:value="${pageUrl}" />
+<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-hist-search.js}"></script>
+</body>
+</html>
