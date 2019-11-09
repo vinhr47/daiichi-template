@@ -44,18 +44,52 @@
 	<!-- MESSAGE -->
  	<th:block th:include="views/commons/message-alert.html :: content(${DOLLAR}{messageList})"/>
 	<!-- END MESSAGE -->
-	<div class="bg-content clearfix">
-	      <!-- FORM SEARCH -->
-	      <th:block th:include="views/${nameLC}/${nameLC}-search.html :: content"/>
-	      <!-- END FORM SEARCH -->
-          
-          
-	      <!-- HTML TABLE -->
-	      <div class="bg-content-tbl" id="tableList">
-	      	<th:block th:include="views/${nameLC}/${nameLC}-table.html :: content"/>
-	      </div>
-	</div>
+
 	<!-- END HTML TABLE -->
+
+    <!-- TAB DEFINE START -->
+    <div class="gr-tab">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a id="fill" data-toggle="tab" role="tab" aria-controls="fill" aria-selected="false" href="#tab-1" class="nav-link active show">
+                    <span th:text="#{}">${nameLC}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="import" data-toggle="tab" role="tab" aria-controls="import" aria-selected="false" href="#tab-2" >
+                    <span th:text="#{}">${nameLC}-History</span>
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane fade show active">
+                <div class="bg-content clearfix">
+                    <!-- FORM SEARCH -->
+                    <th:block th:include="views/${nameLC}/${nameLC}-search.html :: content"/>
+                    <!-- END FORM SEARCH -->
+
+                    <!-- HTML TABLE -->
+                    <div class="bg-content-tbl" id="tableList">
+                        <th:block th:include="views/${nameLC}/${nameLC}-table.html :: content"/>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-2" class="tab-pane fade">
+                <div class="bg-content clearfix">
+                    <!-- FORM SEARCH -->
+                    <th:block th:include="views/${nameLC}/${nameLC}-hist-search.html :: content"/>
+                    <!-- END FORM SEARCH -->
+
+                    <!-- HTML TABLE -->
+                    <div class="bg-content-tbl" id="tableListHist">
+                        <th:block th:include="views/${nameLC}/${nameLC}-hist-table.html :: content"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- TAB DEFINE END -->
 
 </body>
 </html>
