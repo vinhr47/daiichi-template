@@ -2,17 +2,14 @@
 
 ${DOLLAR}(function(){
     /* START XỬ LÝ INPUT CALENDAR */
-    $('.datepicker').datepicker({
-    format: COMMON_DATE_PICKER_DATE_FORMAT,
-    changeMonth: true,
-    changeYear: true,
-    autoclose: true,
+    $('.datepickerd > input').datepicker({
+    format : COMMON_DATE_PICKER_DATE_FORMAT,
+    autoclose : true,
     keyboardNavigation : true,
+    todayHighlight : true,
     orientation : 'bottom'
     });
-
-    $('.datepicker > input').attr("placeholder", DATE_FORMAT);
-    /* END */
+    $('.datepickerd > input').attr("placeholder", DATE_FORMAT);
 
     // on click search
     $("#btnSearchHist").on('click', function(event) {
@@ -22,10 +19,16 @@ ${DOLLAR}(function(){
 
     // datatable load
     $("#tableListHist").datatables({
-    url : BASE_URL + '${nameLC}/ajaxHistory',
+    url : BASE_URL + '${nameLC}hist/ajaxHistory',
     type : 'POST',
     setData : setConditionSearchHistory
     });
+
+    $("#btnExportHist").unbind('click').bind('click', function(){
+        var linkExport = BASE_URL + "${nameLC}hist/exportHistory";
+        doExportExcelWithToken(linkExport, "token", setConditionSearchHistory());
+    });
+
 });
 
 
@@ -34,7 +37,7 @@ ${DOLLAR}(function(){
 */
 function onClickSearchHistory(element, event) {
     setDataSearchHiddenHistory();
-    ajaxSearch("/ajaxHistory", setConditionSearchHistory(), "tableListHistory", element, event);
+    ajaxSearch("${nameLC}hist/ajaxHistory", setConditionSearchHistory(), "tableListHist", element, event);
 }
 
 function  setConditionSearchHistory(){
