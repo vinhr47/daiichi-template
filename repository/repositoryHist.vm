@@ -2,7 +2,7 @@
 #parse("/include/init_var_entity.vm")
 #parse("/include/java_header.vm")
 
-#set( $repositoryName = "${entity.name}HistoryRepository" )
+#set( $repositoryName = "${entity.name}HistRepository" )
 #set( $dtoSearchName = "${entity.name}HistSearchDto" )
 #set( $entityHistDto = "${entity.name}HistDto" )
 package ${target.javaPackageFromFolder($SRC)};
@@ -15,10 +15,10 @@ import org.springframework.data.repository.query.Param;
 //-- DTO search
 import ${dtoPackage}.${dtoSearchName};
 //-- Dto
-import ${dtoPackage}.${entity.name}HistDto;
+import  ${entityPackage}.${entity.name}Hist;
 
 public interface ${repositoryName} extends MirageRepository<${entity.name}Hist, Long>{
 
-    public List<${entityHistDto}> findAll${entity.name}HistsBySearchDto(@Param("searchDto") ${dtoSearchName} searchDto);
+    public List<${entity.name}Hist> findAll${entity.name}HistBySearchDto(@Param("searchDto") ${dtoSearchName} searchDto);
 
 }
