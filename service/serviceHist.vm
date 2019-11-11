@@ -12,10 +12,10 @@ import vn.com.unit.jcanary.common.PageWrapper;
 //-- Dto Search
 import ${dtoPackage}.${dtoSearchName};
 //-- Dto
-import ${dtoPackage}.${entity.name}HistDto;
+import ${entityPackage}.${entity.name}Hist;
 
 public interface ${serviceName} {
 
-	public PageWrapper<${entity.name}HistDto> doSearchHistory(int page, ${dtoSearchName} searchDto, int pageSize);
+	public PageWrapper<${entity.name}Hist> searchHistory(int page, ${dtoSearchName} searchDto, int pageSize);
 
 }
