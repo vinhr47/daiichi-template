@@ -10,5 +10,5 @@ WHERE
 /*IF searchDto.modifiedDateFrom != null && searchDto.modifiedDateTo != null*/
 	tb.UPDATED_DATE BETWEEN /*searchDto.modifiedDateFrom*/ and /*searchDto.modifiedDateTo*/
 /*END*/
-)
+
 ORDER BY tb.UPDATED_DATE ASC
