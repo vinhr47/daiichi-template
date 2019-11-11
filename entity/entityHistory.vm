@@ -32,7 +32,7 @@ public class ${entity.name}Hist extends AbstractDmsEntity {
 
 
     //----------------------------------------------------------------------
-    // ENTITY PRIMARY KEY 
+    // ENTITY PRIMARY KEY
     //----------------------------------------------------------------------
 #foreach( $field in $entity.keyAttributes )
 	@Id
@@ -42,15 +42,15 @@ public class ${entity.name}Hist extends AbstractDmsEntity {
 #end
 
     //----------------------------------------------------------------------
-    // ENTITY DATA FIELDS 
-    //----------------------------------------------------------------------  
-  
+    // ENTITY DATA FIELDS
+    //----------------------------------------------------------------------
+
 #foreach( $field in $dataFields )
 #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
 && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'updatedDate' && $field.formattedName(0) != 'updatedBy'
 && $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'companyCode')
 	/** Column: $field.formattedName(0) $fn.toUpperCase(${field.databaseType})(${field.databaseSize}) */
-    @Column(name = "$field.databaseName")  
+    @Column(name = "$field.databaseName")
     private $field.formattedType(0) $field.formattedName(0);
 
 #end
@@ -64,10 +64,10 @@ public class ${entity.name}Hist extends AbstractDmsEntity {
     //----------------------------------------------------------------------
     // CONSTRUCTOR(S)
     //----------------------------------------------------------------------
-    public ${entity.name}() {
+    public ${entity.name}Hist() {
 		super();
     }
-    
+
     //----------------------------------------------------------------------
     // GETTER & SETTER FOR "KEY FIELD(S)"
     //----------------------------------------------------------------------
@@ -79,7 +79,7 @@ public class ${entity.name}Hist extends AbstractDmsEntity {
         return this.$attribute.name;
     }
 
-#end	
+#end
 
     //----------------------------------------------------------------------
     // GETTERS & SETTERS FOR "DATA FIELDS"
@@ -91,7 +91,7 @@ public class ${entity.name}Hist extends AbstractDmsEntity {
 
     public void ${attribute.setter}( $attribute.type $attribute.name ) {
         this.$attribute.name = $attribute.name ;
-    } 
+    }
 
     public $attribute.type ${attribute.getter}() {
         return this.$attribute.name;
