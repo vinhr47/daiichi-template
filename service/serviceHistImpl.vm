@@ -3,25 +3,17 @@
 #parse("/include/java_header.vm")
 
 #set( $uncapitalizedEntityName = $fn.uncapitalize($entity.name) )
-#set( $serviceName = "${entity.name}ServiceHist"	)
+#set( $serviceName = "${entity.name}HistService"	)
 #set( $dtoSearchName = "${entity.name}HistSearchDto"	)
 #set( $serviceImplName = "${entity.name}HistServiceImpl"	)
-#set( $repositoryName = "${entity.name}RepositoryHistory"	)
+#set( $repositoryName = "${entity.name}HistRepository"	)
 #set( $uncapitalizedRepoName = $fn.uncapitalize($repositoryName) )
 
 package ${target.javaPackageFromFolder($SRC)};
 
-import vn.com.unit.jcanary.constant.CommonConstant;
-import java.util.Locale;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import vn.com.unit.exception.BusinessException;
-import vn.com.unit.jcanary.authentication.UserProfileUtils;
+
 import vn.com.unit.jcanary.common.PageWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,10 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.modelmapper.ModelMapper;
 import vn.com.unit.jcanary.config.SystemConfig;
 import vn.com.unit.jcanary.utils.ExportExcelUtil;
-import vn.com.unit.jcanary.utils.ImportExcelUtil;
-import vn.com.unit.dto.ItemColsExcelDto;
-import javax.servlet.ServletContext;
-import jp.sf.amateras.mirage.SqlManager;
+
 import ${ROOT_PKG}.dto.TransferDataImportParam;
 import ${ROOT_PKG}.constant.ExcelConst;
 import vn.com.unit.jcce.dto.ImportParamsForStoreDto;
@@ -46,7 +35,7 @@ import ${dtoPackage}.${dtoSearchName};
 import ${entityRepository}.${repositoryName};
 
 //-- Dto
-import ${dtoPackage}.${entity.name}HistDto;
+import ${entityPackage}.${entity.name}Hist;
 /**
  * Spring MVC ServiceImpl for '${entity.name}Hist' management.
  */
@@ -63,19 +52,19 @@ public class ${serviceImplName} implements ${serviceName}{
 
 
 	@Override
-	public PageWrapper<${entity.name}HistDto> searchHistory(int page, ${dtoSearchName} searchDto, int pageSize)
+	public PageWrapper<${entity.name}Hist> searchHistory(int page, ${dtoSearchName} searchDto, int pageSize)
 	{
-		PageWrapper<${entity.name}HistDto> pageWrapper = new PageWrapper<>();
+		PageWrapper<${entity.name}Hist> pageWrapper = new PageWrapper<>();
 		pageSize = this.systemConfig.settingPageSizeList(pageSize, pageWrapper, page);
-		List<${entity.name}HistDto> dtoList = this.${uncapitalizedRepoName}.findAll${entity.name}HistsBySearchDto(searchDto);
+		List<${entity.name}Hist> dtoList = this.${uncapitalizedRepoName}.findAll${entity.name}HistBySearchDto(searchDto);
 		pageWrapper.setDataAndCount(this.return${entity.name}HistDtoPagination(dtoList,page-1,pageSize),dtoList.size());
 		return pageWrapper;
 	}
 
 	/* LẤY DANH SÁCH ${entity.name}HistDto THEO PHÂN TRANG */
-	private List<${entity.name}HistDto> return${entity.name}HistDtoPagination(List<${entity.name}HistDto> dtoList ),int page,int pageSize)
+	private List<${entity.name}Hist> return${entity.name}HistDtoPagination(List<${entity.name}Hist> dtoList,int page,int pageSize)
 	{
-		List<${entity.name}HistDto> newList = new ArrayList<>();
+		List<${entity.name}Hist> newList = new ArrayList<>();
 			int indexFrom = page * pageSize;
 			int indexTo   = page * pageSize + pageSize;
 			while (true)
