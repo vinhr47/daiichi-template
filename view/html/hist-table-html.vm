@@ -3,73 +3,85 @@
 #set( $nameLC = ${entity.name.toLowerCase()} )
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-	<body th:fragment="content">
-			<!-- TITLE -->
-		    <div class="header-box">
-		    	<div class="row">
-		    		<div class="col-md-4">
-		    			<h5 class="title-box" th:text="#{search.results.title}">Kết quả tìm kiếm</h5>
-		    		</div>
-		    		<div class="col-md-8">
-		    			<a class="u-btn-orange u-btn-effect pull-right" id="btnExport"> <i class="fa fa-download" aria-hidden="true"></i>
-		    				<span th:text="' '+#{common.export.data}"></span>
-		    			</a>
-		    		</div>
-		    	</div>
-		    </div>
-			<!-- END TITLE -->
-	
-		    <!-- CONTENT TABLE -->
-		    <div class="content-box">
-		    	<div class="table-responsive">			
-		    		<table class="table table-bordered table-striped">
+<body th:fragment="content">
+<!-- TITLE -->
+<div class="header-box">
+    <div class="row">
+        <div class="col-md-4">
+            <h5 class="title-box" th:text="#{search.results.title}">Kết quả tìm kiếm</h5>
+        </div>
+        <div class="col-md-8">
+            <a class="u-btn-orange u-btn-effect pull-right" id="btnExportHist"> <i class="fa fa-download"
+                                                                               aria-hidden="true"></i>
+                <span th:text="' '+#{common.export.data}"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- END TITLE -->
 
-						<!-- HEADER CONTENT TABLE -->
-		    			<thead>
-		    				<tr>
-		    					<th class="u_t_no">#</th>
-		    	                #foreach( $field in $dataFields )
-		    	                     #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
-		    	 	                 && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag'
-									 && $field.formattedName(0) != 'companyCode')
-		    	                     #end
-		    	                #end	
-		    	            </tr>
-		    			</thead>
-						<!-- END HEADER CONTENT TABLE -->
+<!-- CONTENT TABLE -->
+<div class="content-box">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
 
-						<!-- BODY CONTENT TABLE -->
-		    			<tbody>
-		    				<th:block th:each="item,i : ${DOLLAR}{pageWrapperHist.data}"
-									  th:with="startIndex=${DOLLAR}{pageWrapperHist.startIndexCurrent}">
-		                  	<tr th:attr="data-id=${DOLLAR}{item.id}">
-		                  		<td th:text="${DOLLAR}{i.index + startIndex}" class="text-center" ></td>
-		                        #foreach( $field in $dataFields )
-		                               #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) != 'deletedDate' && $field.formattedName(0) != 'createdBy'
-		                               && $field.formattedName(0) != 'createdDate'
-		                               && $field.formattedName(0) != 'deleteFlag' && $field.formattedName(0) != 'validFlag' && $field.formattedName(0) != 'companyCode')
-								<!-- $field.formattedName(0) -->
-		                                         #if($field.jdbcTypeName == 'TIMESTAMP')
-		                                         <td class="text-center" th:text="${DOLLAR}{item.${field.formattedName(0)}} ? ${DOLLAR}{#dates.format(item.${field.formattedName(0)}, @menuConfig.getFormDate())}"></td>
-		                                         #elseif($field.jdbcTypeName == 'NUMERIC' || $field.jdbcTypeName == 'FLOAT' || $field.jdbcTypeName == 'DOUBLE' || $field.jdbcTypeName == 'LONG')
-		                                         <td class="text-right" th:text="${DOLLAR}{item.${field.formattedName(0)} != null ? #numbers.formatDecimal(item.${field.formattedName(0)}, 0, 'COMMA',0, 'POINT') : 0}">$fn.toUpperCase($field.formattedName(0))</td>
-												 #else
-		                                         <td th:text="${DOLLAR}{item.${field.formattedName(0)}}">$fn.toUpperCase($field.formattedName(0))</td>
-		                                         #end
-								<!-- END $field.formattedName(0) -->
-		                               #end
-		                        #end	
-		                    </tr>
-		    			    </th:block>																												
-		    			</tbody>	
-						<!-- END BODY CONTENT TABLE -->
+            <!-- HEADER CONTENT TABLE -->
+            <thead>
+            <tr>
+                <th class="u_t_no">#</th>
+                #foreach( $field in $dataFields )
+                    #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) !=
+                        'deletedDate' && $field.formattedName(0) != 'createdBy'
+                    && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) !=
+                        'deleteFlag' && $field.formattedName(0) != 'validFlag'
+                    && $field.formattedName(0) != 'companyCode'  && $field.formattedName(0) !=
+                        'isNotReturn' && $field.formattedName(0) != 'versionData' )
+                        <th class="u_t_code">$fn.toUpperCase($field.formattedName(0))</th>
+                    #end
+                #end
+            </tr>
+            </thead>
+            <!-- END HEADER CONTENT TABLE -->
 
-		    		</table>							
- 					<!-- END BODY CONTENT TABLE -->				
-		    	</div>			
-		    </div>
-		    <!-- END CONTENT TABLE -->
-		<th:block th:include="views/commons/pagination-v2.html :: content(${DOLLAR}{pageWrapperHist})"/>
-		<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-hist-search.js}"></script>
-	</body>
+            <!-- BODY CONTENT TABLE -->
+            <tbody>
+            <th:block th:each="item,i : ${DOLLAR}{pageWrapperHist.data}"
+                      th:with="startIndex=${DOLLAR}{pageWrapperHist.startIndexCurrent}">
+                <tr th:attr="data-id=${DOLLAR}{item.id}">
+                    <td th:text="${DOLLAR}{i.index + startIndex}" class="text-center"></td>
+
+                    #foreach( $field in $dataFields )
+                        #if($field.formattedName(0) != 'deletedBy' && $field.formattedName(0) !=
+                            'deletedDate' && $field.formattedName(0) != 'createdBy'
+                        && $field.formattedName(0) != 'createdDate' && $field.formattedName(0) !=
+                            'deleteFlag' && $field.formattedName(0) != 'validFlag'
+                        && $field.formattedName(0) != 'companyCode' && $field.formattedName(0) !=
+                            'isNotReturn' && $field.formattedName(0) != 'versionData')
+                            <!-- $field.formattedName(0) -->
+                            #if($field.jdbcTypeName == 'TIMESTAMP')
+                                <td class="text-center"
+                                    th:text="${DOLLAR}{item.${field.formattedName(0)}} ? ${DOLLAR}{#dates.format(item.${field.formattedName(0)}, @menuConfig.getFormDate())}"></td>
+                            #elseif($field.jdbcTypeName == 'NUMERIC' || $field.jdbcTypeName ==
+                                'FLOAT' || $field.jdbcTypeName == 'DOUBLE' || $field.jdbcTypeName == 'LONG')
+                                <td class="text-right"
+                                    th:text="${DOLLAR}{item.${field.formattedName(0)} != null ? #numbers.formatDecimal(item.${field.formattedName(0)}, 0, 'COMMA',0, 'POINT') : 0}">$fn.toUpperCase($field.formattedName(0))</td>
+                            #else
+                                <td th:text="${DOLLAR}{item.${field.formattedName(0)}}">$fn.toUpperCase($field.formattedName(0))</td>
+                            #end
+                            <!-- END $field.formattedName(0) -->
+                        #end
+                    #end
+                </tr>
+            </th:block>
+            </tbody>
+            <!-- END BODY CONTENT TABLE -->
+
+        </table>
+        <!-- END BODY CONTENT TABLE -->
+    </div>
+</div>
+<!-- END CONTENT TABLE -->
+<th:block th:include="views/commons/pagination-v2.html :: content(${DOLLAR}{pageWrapperHist})"/>
+<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-hist.js}"></script>
+</body>
 </html>
