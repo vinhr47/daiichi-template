@@ -21,9 +21,9 @@
         <div class="content-box">
 
             <div class="row form-group align-items-center">
-                <label  class="col-sm-2" th:text="#{}">Modified date from</label>
+                <label  class="col-sm-2">Modified date from</label>
                 <div class="col-sm-4">
-                    <div class="input-group date datepicker">
+                    <div class="input-group date datepickerd">
                         <input th:field="*{modifiedDateFrom}"  onkeyup="this.setAttribute('value', this.value);" value="" class="form-control"  type="text" autocomplete="on" />
                         <div class="input-group-append">
 							        <span class="input-group-text">
@@ -32,9 +32,9 @@
                         </div>
                     </div>
                 </div>
-                <label class="col-sm-2" th:text="#{}">Modified date to</label>
+                <label class="col-sm-2">Modified date to</label>
                 <div class="col-sm-4">
-                    <div class="input-group date datepicker">
+                    <div class="input-group date datepickerd">
                         <input th:field="*{modifiedDateTo}"  onkeyup="this.setAttribute('value', this.value);" value="" class="form-control" type="text" autocomplete="on" />
                         <div class="input-group-append">
 							        <span class="input-group-text">
@@ -62,7 +62,6 @@
 <!-- BUTTON -->
 <input type="hidden" id="fieldModifiedDateFrom"/>
 <input type="hidden" id="fieldModifiedDateTo"/>
-<input type="hidden" id="url" name="url" th:value="${pageUrl}" />
-<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-hist-search.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/${nameLC}/${nameLC}-hist.js}"></script>
 </body>
 </html>
