@@ -50,38 +50,24 @@ public class ${serviceImplName} implements ${serviceName}{
     @Autowired
     private SystemConfig systemConfig;
 
-
 	@Override
 	public PageWrapper<${entity.name}Hist> searchHistory(int page, ${dtoSearchName} searchDto, int pageSize)
 	{
 		PageWrapper<${entity.name}Hist> pageWrapper = new PageWrapper<>();
-		pageSize = this.systemConfig.settingPageSizeList(pageSize, pageWrapper, page);
-		List<${entity.name}Hist> dtoList = this.${uncapitalizedRepoName}.findAll${entity.name}HistBySearchDto(searchDto);
-		pageWrapper.setDataAndCount(this.return${entity.name}HistDtoPagination(dtoList,page-1,pageSize),dtoList.size());
+		int sizeOfPage = systemConfig.settingPageSizeList(pageSize,pageWrapper ,page);
+		if (null == searchDto)
+		{
+			searchDto = new ${dtoSearchName}();
+		}
+		int count = ${uncapitalizedRepoName}.count${entity.name}HistByCondition(searchDto);
+		List<${entity.name}Hist> result = new ArrayList<${entity.name}Hist>();
+		if (count > 0) {
+			int currentPage = pageWrapper.getCurrentPage();
+			int startIndex = (currentPage - 1) * sizeOfPage;
+			result = this.${uncapitalizedRepoName}.findAll${entity.name}HistBySearchDto(startIndex, sizeOfPage, searchDto);
+		}
+		pageWrapper.setDataAndCount(result, count);
 		return pageWrapper;
 	}
-
-	/* LẤY DANH SÁCH ${entity.name}HistDto THEO PHÂN TRANG */
-	private List<${entity.name}Hist> return${entity.name}HistDtoPagination(List<${entity.name}Hist> dtoList,int page,int pageSize)
-	{
-		List<${entity.name}Hist> newList = new ArrayList<>();
-			int indexFrom = page * pageSize;
-			int indexTo   = page * pageSize + pageSize;
-			while (true)
-			{
-				if (indexFrom == indexTo)
-					{
-					break;
-					}
-				if (indexFrom == dtoList.size())
-				{
-				break;
-				}
-				newList.add(dtoList.get(indexFrom));
-				indexFrom ++;
-			}
-			return  newList;
-	}
-
 
 }
