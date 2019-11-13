@@ -19,6 +19,10 @@ import  ${entityPackage}.${entity.name}Hist;
 
 public interface ${repositoryName} extends MirageRepository<${entity.name}Hist, Long>{
 
-    public List<${entity.name}Hist> findAll${entity.name}HistBySearchDto(@Param("searchDto") ${dtoSearchName} searchDto);
+    public int count${entity.name}HistByCondition( @Param("searchDto")${dtoSearchName} searchDto);
+
+    public List<${entity.name}Hist> findAll${entity.name}HistBySearchDto (@Param("offset") int offset,
+                                                                          @Param("sizeOfPage") int sizeOfPage,
+                                                                          @Param("searchDto") ${dtoSearchName} searchDto);
 
 }
