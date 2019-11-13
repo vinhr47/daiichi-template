@@ -1,0 +1,12 @@
+#set( $dataFields = $entity.getAttributesByCriteria( $const.NOT_KEY, $const.NOT_IN_SELECTED_LINKS ) )
+select count(*)
+from ${entity.databaseTable}_Hist tb
+WHERE
+
+/*IF searchDto.modifiedDateFrom == null || searchDto.modifiedDateTo == null*/
+1 != 1
+/*END*/
+
+/*IF searchDto.modifiedDateFrom != null && searchDto.modifiedDateTo != null*/
+tb.UPDATED_DATE BETWEEN /*searchDto.modifiedDateFrom*/ and /*searchDto.modifiedDateTo*/
+/*END*/
