@@ -12,3 +12,6 @@ WHERE
 /*END*/
 
 ORDER BY tb.UPDATED_DATE ASC
+
+OFFSET /*offset*/ ROWS FETCH NEXT  /*sizeOfPage*/ ROWS ONLY
+
